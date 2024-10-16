@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz Gráfica de Cliente</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        header {
+            background-color: #1f1f1f;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .status {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        .status.connected {
+            background-color: #4caf50;
+        }
+        .status.disconnected {
+            background-color: #f44336;
+        }
+        .console {
+            background-color: #333;
+            padding: 1rem;
+            border-radius: 8px;
+            height: 200px;
+            overflow-y: auto;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Interfaz Gráfica de Cliente</h1>
+    </header>
+    <main>
+        <div class="container">
+            <div class="card">
+                <h2>Estado de la Conexión</h2>
+                <div id="status" class="status disconnected">Desconectado</div>
+            </div>
+            <div class="card">
+                <h2>Enviar Mensaje</h2>
+                <input type="text" id="messageInput" placeholder="Escribe tu mensaje aquí">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+            <div class="card">
+                <h2>Consola</h2>
+                <div id="console" class="console"></div>
+            </div>
+        </div>
+    </main>
+    <script>
+        let isConnected = false;
+
+        function updateStatus() {
+            const statusElement = document.getElementById('status');
+            if (isConnected) {
+                statusElement.textContent = 'Conectado';
+                statusElement.classList.remove('disconnected');
+                statusElement.classList.add('connected');
+            } else {
+                statusElement.textContent = 'Desconectado';
+                statusElement.classList.remove('connected');
+                statusElement.classList.add('disconnected');
+            }
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            if (message && isConnected) {
+                // Aquí enviarías el mensaje al servidor
+                logToConsole(`Enviado: ${message}`);
+                messageInput.value = '';
+            } else {
+                logToConsole('No se puede enviar el mensaje. No hay conexión.');
+            }
+        }
+
+        function logToConsole(message) {
+            const consoleElement = document.getElementById('console');
+            const newMessage = document.createElement('div');
+            newMessage.textContent = message;
+            consoleElement.appendChild(newMessage);
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        }
+
+        // Simulación de conexión/desconexión
+        setInterval(() => {
+            isConnected = !isConnected;
+            updateStatus();
+        }, 5000);
+    </script>
+</body>
+</html>
