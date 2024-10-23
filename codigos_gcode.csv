@@ -1,53 +1,10 @@
 Código,Descripción
-G00,Posicionamiento rápido (sin maquinar)
-G01,Interpolación lineal (maquinando)
-G02,Interpolación circular (horaria)
-G03,Interpolación circular (antihoraria)
-G04,Compás de espera
-G15,Programación en coordenadas polares
-G20,Comienzo de uso de unidades imperiales (pulgadas)
-G21,Comienzo de uso de unidades métricas
-G28,Volver al home de la máquina
-G40,Cancelar compensación de radio de curvatura de herramienta
-G41,Compensación de radio de herramienta a la izquierda
-G42,Compensación de radio de herramienta a la derecha
-G50,Cambio de escala
-G68,Rotación de coordenada
-G73,Ciclos encajonados
-G74,Perforado con ciclo de giro antihorario para descargar virutas
-G76,Alesado fino
-G80,Cancelar ciclo encajonado
-G81,Taladrado
-G82,Taladrado con giro antihorario
-G83,Taladrado profundo con ciclos de retracción para retiro de viruta
-G90,Coordenadas absolutas
-G91,Coordenadas relativas
-G92,Desplazamiento del área de trabajo
-G94,Velocidad de corte expresada en avance por minuto
-G95,Velocidad de corte expresada en avance por revolución
-G98,Retorno al nivel inicial
-G99,Retorno al nivel R
-G107,Programación del 4º eje
-M00,Parada
-M01,Parada opcional
-M02,Reset del programa
-M03,Hacer girar el husillo en sentido horario
-M04,Hacer girar el husillo en sentido antihorario
-M05,Frenar el husillo
-M06,Cambiar de herramienta
-M08,Abrir el paso del refrigerante
-M09,Cerrar el paso de los refrigerantes
-M10,Abrir mordazas
-M11,Cerrar mordazas
-M13,Hacer girar el husillo en sentido horario y abrir el paso de refrigerante
-M14,Hacer girar el husillo en sentido antihorario y abrir el paso de refrigerante
-M30,Finalizar programa y poner el puntero de ejecución en su inicio
-M38,Abrir la guarda
-M39,Cerrar la guarda
-M62,Activar salida auxiliar 1
-M67,Esperar hasta que la entrada 2 esté en ON
-M71,Activar el espejo en Y
-M80,Desactivar el espejo en X
-M81,Desactivar el espejo en Y
-M98,Llamada a subprograma
-M99,Retorno de subprograma
+M3,Activar gripper.
+M5,Desactivar gripper.
+G28,Hacer homing.
+G1 Xa Yb Zc Fv,"Mover el brazo a la posición (a,b,c)[mm] a una velocidad v [mm/s]. Modo de coordenadas absolutas por defecto. Devuelve las coordenadas absolutas luego de realizado el movimiento, independientemente de que se haya realizado un movimiento relativo."
+M114,Reporte de modo de coordenadas y posición actual del robot.
+G90,Modo de coordenadas absolutas.
+G91,Modo de coordenadas relativas.
+M17,Activar motores.
+M18,Desactivar motores.

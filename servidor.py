@@ -52,6 +52,13 @@ class Servidor:
         else:
             return "Código G-code no reconocido."
 
+    # Método para obtener el listado de G-codes y sus descripciones
+    def obtenerListadoGCodes(self):
+        listado = []
+        for codigo, descripcion in self.gcode_dict.items():
+            listado.append(f"{codigo}: {descripcion}")
+        return listado
+
     # Método para saludar (ya existente)
     def saludar(self, nombre):
         print(f"Solicitud de saludo recibida de: {nombre}")
