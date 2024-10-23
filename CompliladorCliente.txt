@@ -1,3 +1,5 @@
 Con este codigo compilo el cliente
 
 g++ -o Cliente cliente.cpp ./libreria/XmlRpcClient.cpp ./libreria/XmlRpcValue.cpp ./libreria/XmlRpcUtil.cpp ./libreria/XmlRpcSocket.cpp ./libreria/XmlRpcSource.cpp ./libreria/XmlRpcDispatch.cpp -I./libreria -pthread -lws2_32
+
+g++ -o Cliente cliente.cpp ./libreria/XmlRpcClient.cpp ./libreria/XmlRpcValue.cpp ./libreria/XmlRpcUtil.cpp ./libreria/XmlRpcSocket.cpp ./libreria/XmlRpcSource.cpp ./libreria/XmlRpcDispatch.cpp -I./libreria -pthread -L./obj -lws2_32
