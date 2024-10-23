@@ -9,12 +9,17 @@
 class ClienteXMLRPC {
 public:
     ClienteXMLRPC(const std::string& serverHost, int serverPort)
-        : client(serverHost.c_str(), serverPort) 
+        : client(serverHost.c_str(), serverPort), conectadoAlRobot(false) // Inicializamos conectadoAlRobot en falso
     {
         std::cout << "Cliente conectado a " << serverHost << " en el puerto " << serverPort << std::endl;
     }
 
     void solicitarSaludo(const std::string& nombre) {
+        if (!conectadoAlRobot) {
+            std::cerr << "La conexión con el robot no está activada." << std::endl;
+            return;
+        }
+
         XmlRpc::XmlRpcValue args, result;
         args[0] = nombre;
 
@@ -31,6 +36,11 @@ public:
     }
 
     void enviarGCode(const std::string& usuario, const std::string& gcode) {
+        if (!conectadoAlRobot) {
+            std::cerr << "La conexión con el robot no está activada." << std::endl;
+            return;
+        }
+
         XmlRpc::XmlRpcValue args, result;
         args[0] = usuario;
         args[1] = gcode;
@@ -47,15 +57,22 @@ public:
         }
     }
 
+    // Método para activar/desactivar la conexión al robot
+    void cambiarConexionRobot() {
+        conectadoAlRobot = !conectadoAlRobot;
+        std::cout << "Conexión con el robot " << (conectadoAlRobot ? "activada" : "desactivada") << "." << std::endl;
+    }
+
 private:
-    XmlRpc::XmlRpcClient client; 
+    XmlRpc::XmlRpcClient client;
+    bool conectadoAlRobot; // Bandera para indicar si la conexión al robot está activa
 };
 
 // Función para verificar credenciales en el archivo CSV
 bool verificarCredenciales(const std::string& usuario, const std::string& contraseña) {
     std::ifstream archivo("usuarios.csv");
     std::string linea, u, p;
-    
+
     if (!archivo.is_open()) {
         std::cerr << "No se pudo abrir el archivo CSV." << std::endl;
         return false;
@@ -93,13 +110,13 @@ bool verificarGCode(const std::string& gcode) {
     while (std::getline(archivo, linea)) {
         std::stringstream ss(linea);
         std::getline(ss, codigo, ',');
-        
+
         // Comprobar si el código coincide
         if (codigo == gcode) {
             return true;
         }
     }
-    
+
     return false;
 }
 
@@ -119,9 +136,10 @@ void mostrarMenu() {
     std::cout << "\n--- ***Cliente*** ---" << std::endl;
     std::cout << "1. Ingresar usuario y contraseña" << std::endl;
     std::cout << "2. Registrar nuevo usuario" << std::endl;
-    std::cout << "3. Solicitar saludo al servidor" << std::endl;
-    std::cout << "4. Ingresar comando GCode" << std::endl;
-    std::cout << "5. Salir" << std::endl;
+    std::cout << "3. Activar/Desactivar conexión con el robot" << std::endl;
+    std::cout << "4. Solicitar saludo al servidor" << std::endl;
+    std::cout << "5. Ingresar comando GCode" << std::endl;
+    std::cout << "6. Salir" << std::endl;
     std::cout << "Seleccione una opcion: ";
 }
 
@@ -172,11 +190,19 @@ int main(int argc, char* argv[]) {
                 if (!autenticado) {
                     std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
                 } else {
-                    cliente.solicitarSaludo(usuario);
+                    cliente.cambiarConexionRobot(); // Cambia el estado de conexión al robot
                 }
                 break;
             }
             case 4: {
+                if (!autenticado) {
+                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
+                } else {
+                    cliente.solicitarSaludo(usuario);
+                }
+                break;
+            }
+            case 5: {
                 if (!autenticado) {
                     std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
                 } else {
@@ -200,14 +226,14 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             }
-            case 5:
+            case 6:
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
                 std::cerr << "Opcion invalida. Intente nuevamente." << std::endl;
                 break;
         }
-    } while (opcion != 5);
+    } while (opcion != 6);
 
     return 0;
 }
