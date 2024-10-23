@@ -9,7 +9,7 @@
 class ClienteXMLRPC {
 public:
     ClienteXMLRPC(const std::string& serverHost, int serverPort)
-        : client(serverHost.c_str(), serverPort), conectadoAlRobot(false) // Inicializamos conectadoAlRobot en falso
+        : client(serverHost.c_str(), serverPort), conectadoAlRobot(false) 
     {
         std::cout << "Cliente conectado a " << serverHost << " en el puerto " << serverPort << std::endl;
     }
@@ -57,6 +57,24 @@ public:
         }
     }
 
+    void obtenerListadoGCodes() {
+        XmlRpc::XmlRpcValue params;  // Parámetro vacío
+        XmlRpc::XmlRpcValue result;
+
+        try {
+            std::cout << "Solicitando listado de GCodes al servidor..." << std::endl;
+            client.execute("obtenerListadoGCodes", params, result);
+
+            std::cout << "Listado de GCodes disponibles:\n";
+            for (int i = 0; i < result.size(); ++i) {
+                std::cout << result[i] << std::endl;
+            }
+
+        } catch (XmlRpc::XmlRpcException& e) {
+            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
+        }
+    }
+
     // Método para activar/desactivar la conexión al robot
     void cambiarConexionRobot() {
         conectadoAlRobot = !conectadoAlRobot;
@@ -64,7 +82,7 @@ public:
     }
 
 private:
-    XmlRpc::XmlRpcClient client;
+    XmlRpc::XmlRpcClient client; 
     bool conectadoAlRobot; // Bandera para indicar si la conexión al robot está activa
 };
 
@@ -72,7 +90,7 @@ private:
 bool verificarCredenciales(const std::string& usuario, const std::string& contraseña) {
     std::ifstream archivo("usuarios.csv");
     std::string linea, u, p;
-
+    
     if (!archivo.is_open()) {
         std::cerr << "No se pudo abrir el archivo CSV." << std::endl;
         return false;
@@ -85,14 +103,11 @@ bool verificarCredenciales(const std::string& usuario, const std::string& contra
         std::getline(ss, p, ',');
 
         // Comprobar si el usuario y la contraseña coinciden
-        if (u == usuario) {
-            if (p == contraseña) {
-                return true; // Usuario y contraseña correctos
-            }
-            return false; // Usuario correcto, pero contraseña incorrecta
+        if (u == usuario && p == contraseña) {
+            return true;
         }
     }
-
+    
     return false;
 }
 
@@ -110,13 +125,13 @@ bool verificarGCode(const std::string& gcode) {
     while (std::getline(archivo, linea)) {
         std::stringstream ss(linea);
         std::getline(ss, codigo, ',');
-
+        
         // Comprobar si el código coincide
         if (codigo == gcode) {
             return true;
         }
     }
-
+    
     return false;
 }
 
@@ -138,9 +153,10 @@ void mostrarMenu() {
     std::cout << "2. Registrar nuevo usuario" << std::endl;
     std::cout << "3. Activar/Desactivar conexión con el robot" << std::endl;
     std::cout << "4. Solicitar saludo al servidor" << std::endl;
-    std::cout << "5. Ingresar comando GCode" << std::endl;
-    std::cout << "6. Salir" << std::endl;
-    std::cout << "Seleccione una opcion: ";
+    std::cout << "5. Solicitar listado de GCodes" << std::endl;
+    std::cout << "6. Ingresar comando GCode" << std::endl;
+    std::cout << "7. Salir" << std::endl;
+    std::cout << "Seleccione una opción: ";
 }
 
 int main(int argc, char* argv[]) {
@@ -203,6 +219,10 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case 5: {
+                cliente.obtenerListadoGCodes();  // Solicitar lista de comandos al servidor
+                break;
+            }
+            case 6: {
                 if (!autenticado) {
                     std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
                 } else {
@@ -221,19 +241,20 @@ int main(int argc, char* argv[]) {
                             std::cout << "Envío cancelado." << std::endl;
                         }
                     } else {
-                        std::cerr << "Código GCode no válido." << std::endl;
+                                                std::cerr << "El código GCode no es válido." << std::endl;
                     }
                 }
                 break;
             }
-            case 6:
-                std::cout << "Saliendo..." << std::endl;
+            case 7:
+                std::cout << "Saliendo del programa..." << std::endl;
                 break;
             default:
-                std::cerr << "Opcion invalida. Intente nuevamente." << std::endl;
+                std::cerr << "Opción no válida. Intente nuevamente." << std::endl;
                 break;
         }
-    } while (opcion != 6);
+    } while (opcion != 7);
 
     return 0;
 }
+
