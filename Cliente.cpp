@@ -30,6 +30,23 @@ public:
         }
     }
 
+    void enviarGCode(const std::string& usuario, const std::string& gcode) {
+        XmlRpc::XmlRpcValue args, result;
+        args[0] = usuario;
+        args[1] = gcode;
+
+        try {
+            std::cout << "Enviando comando GCode al servidor..." << std::endl;
+            client.execute("enviarGCode", args, result);
+
+            std::string respuesta = static_cast<std::string>(result);
+            std::cout << "Respuesta del servidor: " << respuesta << std::endl;
+
+        } catch (XmlRpc::XmlRpcException& e) {
+            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
+        }
+    }
+
 private:
     XmlRpc::XmlRpcClient client; 
 };
@@ -59,6 +76,30 @@ bool verificarCredenciales(const std::string& usuario, const std::string& contra
     return false;
 }
 
+// Función para verificar si el código GCode está en el archivo CSV
+bool verificarGCode(const std::string& gcode) {
+    std::ifstream archivo("codigos_gcode.csv");
+    std::string linea, codigo;
+
+    if (!archivo.is_open()) {
+        std::cerr << "No se pudo abrir el archivo de códigos GCode." << std::endl;
+        return false;
+    }
+
+    // Leer el archivo línea por línea
+    while (std::getline(archivo, linea)) {
+        std::stringstream ss(linea);
+        std::getline(ss, codigo, ',');
+        
+        // Comprobar si el código coincide
+        if (codigo == gcode) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 // Función para registrar un nuevo usuario
 void registrarNuevoUsuario(const std::string& usuario, const std::string& contraseña) {
     std::ofstream archivo("usuarios.csv", std::ios::app); // Abrir el archivo en modo de añadir
@@ -76,7 +117,8 @@ void mostrarMenu() {
     std::cout << "1. Ingresar usuario y contraseña" << std::endl;
     std::cout << "2. Registrar nuevo usuario" << std::endl;
     std::cout << "3. Solicitar saludo al servidor" << std::endl;
-    std::cout << "4. Salir" << std::endl;
+    std::cout << "4. Ingresar comando GCode" << std::endl;
+    std::cout << "5. Salir" << std::endl;
     std::cout << "Seleccione una opcion: ";
 }
 
@@ -128,14 +170,34 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             }
-            case 4:
+            case 4: {
+                std::string gcode;
+                std::cout << "Ingrese un código GCode: ";
+                std::cin >> gcode;
+
+                if (verificarGCode(gcode)) {
+                    std::cout << "Código GCode válido. ¿Desea enviarlo al servidor? (s/n): ";
+                    char confirmacion;
+                    std::cin >> confirmacion;
+
+                    if (confirmacion == 's' || confirmacion == 'S') {
+                        cliente.enviarGCode(usuario, gcode);
+                    } else {
+                        std::cout << "Envío cancelado." << std::endl;
+                    }
+                } else {
+                    std::cerr << "Código GCode no válido." << std::endl;
+                }
+                break;
+            }
+            case 5:
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
                 std::cerr << "Opcion invalida. Intente nuevamente." << std::endl;
                 break;
         }
-    } while (opcion != 4);
+    } while (opcion != 5);
 
     return 0;
 }
