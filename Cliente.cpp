@@ -66,13 +66,16 @@ bool verificarCredenciales(const std::string& usuario, const std::string& contra
         std::stringstream ss(linea);
         std::getline(ss, u, ',');
         std::getline(ss, p, ',');
-        
+
         // Comprobar si el usuario y la contraseña coinciden
-        if (u == usuario && p == contraseña) {
-            return true;
+        if (u == usuario) {
+            if (p == contraseña) {
+                return true; // Usuario y contraseña correctos
+            }
+            return false; // Usuario correcto, pero contraseña incorrecta
         }
     }
-    
+
     return false;
 }
 
@@ -133,6 +136,7 @@ int main(int argc, char* argv[]) {
 
     ClienteXMLRPC cliente(serverHost, serverPort);
     std::string usuario, contraseña;
+    bool autenticado = false; // Variable para controlar si está autenticado
     int opcion;
 
     do {
@@ -148,8 +152,10 @@ int main(int argc, char* argv[]) {
 
                 if (verificarCredenciales(usuario, contraseña)) {
                     std::cout << "Usuario autenticado correctamente." << std::endl;
+                    autenticado = true;
                 } else {
                     std::cerr << "Credenciales incorrectas." << std::endl;
+                    autenticado = false; // Desautenticado si las credenciales son incorrectas
                 }
                 break;
             }
@@ -163,7 +169,7 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case 3: {
-                if (usuario.empty()) {
+                if (!autenticado) {
                     std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
                 } else {
                     cliente.solicitarSaludo(usuario);
@@ -171,22 +177,26 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case 4: {
-                std::string gcode;
-                std::cout << "Ingrese un código GCode: ";
-                std::cin >> gcode;
-
-                if (verificarGCode(gcode)) {
-                    std::cout << "Código GCode válido. ¿Desea enviarlo al servidor? (s/n): ";
-                    char confirmacion;
-                    std::cin >> confirmacion;
-
-                    if (confirmacion == 's' || confirmacion == 'S') {
-                        cliente.enviarGCode(usuario, gcode);
-                    } else {
-                        std::cout << "Envío cancelado." << std::endl;
-                    }
+                if (!autenticado) {
+                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
                 } else {
-                    std::cerr << "Código GCode no válido." << std::endl;
+                    std::string gcode;
+                    std::cout << "Ingrese un código GCode: ";
+                    std::cin >> gcode;
+
+                    if (verificarGCode(gcode)) {
+                        std::cout << "Código GCode válido. ¿Desea enviarlo al servidor? (s/n): ";
+                        char confirmacion;
+                        std::cin >> confirmacion;
+
+                        if (confirmacion == 's' || confirmacion == 'S') {
+                            cliente.enviarGCode(usuario, gcode);
+                        } else {
+                            std::cout << "Envío cancelado." << std::endl;
+                        }
+                    } else {
+                        std::cerr << "Código GCode no válido." << std::endl;
+                    }
                 }
                 break;
             }
