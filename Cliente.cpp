@@ -1,9 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <vector>
-#include <ctime>
-#include "libreria/XmlRpc.h"  // Asegurate de tener esta libreria incluida correctamente
+#include "libreria/XmlRpc.h"  // Asegúrate de tener esta librería incluida correctamente
 
 class ClienteXMLRPC {
 public:
@@ -13,19 +11,16 @@ public:
         std::cout << "Cliente conectado a " << serverHost << " en el puerto " << serverPort << std::endl;
     }
 
-    void solicitarNumeroAleatorio(const std::string& usuario, const std::string& password, double ci, double cs) {
+    void enviarSaludo(const std::string& nombre) {
         XmlRpc::XmlRpcValue args, result;
-        args[0] = usuario;  // Enviar usuario
-        args[1] = password; // Enviar contraseña
-        args[2] = ci;       // Enviar cota inferior
-        args[3] = cs;       // Enviar cota superior
+        args[0] = nombre;  // Enviar el nombre del usuario
 
         try {
-            std::cout << "Enviando solicitud al servidor para generar un numero aleatorio..." << std::endl;
-            client.execute("generarNumero", args, result);  // Ejecutamos la función "generarNumero" en el servidor
+            std::cout << "Enviando solicitud de saludo al servidor..." << std::endl;
+            client.execute("saludar", args, result);  // Ejecutamos la función "saludar" en el servidor
 
-            double numero = static_cast<double>(result[0]);
-            std::cout << "Numero generado: " << numero << std::endl;
+            std::string respuesta = static_cast<std::string>(result);
+            std::cout << "Respuesta del servidor: " << respuesta << std::endl;
 
         } catch (XmlRpc::XmlRpcException& e) {
             std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
@@ -38,10 +33,9 @@ private:
 
 void mostrarMenu() {
     std::cout << "\n--- ***Cliente*** ---" << std::endl;
-    std::cout << "1. Ingresar usuario y contraseña" << std::endl;
-    std::cout << "2. Ingresar cotas (ci y cs)" << std::endl;
-    std::cout << "3. Solicitar numero aleatorio al servidor" << std::endl;
-    std::cout << "4. Salir" << std::endl;
+    std::cout << "1. Ingresar nombre de usuario" << std::endl;
+    std::cout << "2. Enviar saludo al servidor" << std::endl;
+    std::cout << "3. Salir" << std::endl;
     std::cout << "Seleccione una opcion: ";
 }
 
@@ -55,8 +49,7 @@ int main(int argc, char* argv[]) {
     int serverPort = std::stoi(argv[2]);
 
     ClienteXMLRPC cliente(serverHost, serverPort);
-    std::string usuario, password;
-    double ci = 0.0, cs = 0.0;
+    std::string nombre;
     int opcion;
 
     do {
@@ -65,34 +58,24 @@ int main(int argc, char* argv[]) {
 
         switch (opcion) {
             case 1:
-                std::cout << "Ingrese su usuario: ";
-                std::cin >> usuario;
-                std::cout << "Ingrese su contraseña: ";
-                std::cin >> password;
+                std::cout << "Ingrese su nombre de usuario: ";
+                std::cin >> nombre;
                 break;
             case 2:
-                std::cout << "Ingrese cota inferior (ci): ";
-                std::cin >> ci;
-                std::cout << "Ingrese cota superior (cs): ";
-                std::cin >> cs;
-                break;
-            case 3:
-                if (usuario.empty() || password.empty()) {
-                    std::cerr << "Debe ingresar usuario y contraseña primero." << std::endl;
-                } else if (ci == 0 && cs == 0) {
-                    std::cerr << "Debe ingresar las cotas primero." << std::endl;
+                if (nombre.empty()) {
+                    std::cerr << "Debe ingresar su nombre de usuario primero." << std::endl;
                 } else {
-                    cliente.solicitarNumeroAleatorio(usuario, password, ci, cs);
+                    cliente.enviarSaludo(nombre);
                 }
                 break;
-            case 4:
+            case 3:
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
                 std::cerr << "Opcion invalida. Intente nuevamente." << std::endl;
                 break;
         }
-    } while (opcion != 4);
+    } while (opcion != 3);
 
     return 0;
 }
