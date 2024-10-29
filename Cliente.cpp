@@ -16,7 +16,7 @@ public:
 
     void solicitarSaludo(const std::string& nombre) {
         if (!conectadoAlRobot) {
-            std::cerr << "La conexión con el robot no está activada." << std::endl;
+            std::cerr << "La conexion con el robot no esta activada." << std::endl;
             return;
         }
 
@@ -37,7 +37,7 @@ public:
 
     void enviarGCode(const std::string& usuario, const std::string& gcode) {
         if (!conectadoAlRobot) {
-            std::cerr << "La conexión con el robot no está activada." << std::endl;
+            std::cerr << "La conexion con el robot no esta activada." << std::endl;
             return;
         }
 
@@ -78,7 +78,7 @@ public:
     // Método para activar/desactivar la conexión al robot
     void cambiarConexionRobot() {
         conectadoAlRobot = !conectadoAlRobot;
-        std::cout << "Conexión con el robot " << (conectadoAlRobot ? "activada" : "desactivada") << "." << std::endl;
+        std::cout << "Conexion con el robot " << (conectadoAlRobot ? "activada" : "desactivada") << "." << std::endl;
     }
 
 private:
@@ -117,7 +117,7 @@ bool verificarGCode(const std::string& gcode) {
     std::string linea, codigo;
 
     if (!archivo.is_open()) {
-        std::cerr << "No se pudo abrir el archivo de códigos GCode." << std::endl;
+        std::cerr << "No se pudo abrir el archivo de codigos GCode." << std::endl;
         return false;
     }
 
@@ -149,14 +149,14 @@ void registrarNuevoUsuario(const std::string& usuario, const std::string& contra
 // Menú principal
 void mostrarMenu() {
     std::cout << "\n--- ***Cliente*** ---" << std::endl;
-    std::cout << "1. Ingresar usuario y contraseña" << std::endl;
+    std::cout << "1. Ingresar usuario y contrasena" << std::endl;
     std::cout << "2. Registrar nuevo usuario" << std::endl;
-    std::cout << "3. Activar/Desactivar conexión con el robot" << std::endl;
+    std::cout << "3. Activar/Desactivar conexion con el robot" << std::endl;
     std::cout << "4. Solicitar saludo al servidor" << std::endl;
     std::cout << "5. Solicitar listado de GCodes" << std::endl;
     std::cout << "6. Ingresar comando GCode" << std::endl;
     std::cout << "7. Salir" << std::endl;
-    std::cout << "Seleccione una opción: ";
+    std::cout << "Seleccione una opcion: ";
 }
 
 int main(int argc, char* argv[]) {
@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
             case 1: {
                 std::cout << "Ingrese su usuario: ";
                 std::cin >> usuario;
-                std::cout << "Ingrese su contraseña: ";
+                std::cout << "Ingrese su contrasena: ";
                 std::cin >> contraseña;
 
                 if (verificarCredenciales(usuario, contraseña)) {
@@ -204,7 +204,7 @@ int main(int argc, char* argv[]) {
             }
             case 3: {
                 if (!autenticado) {
-                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
+                    std::cerr << "Debe ingresar primero con su usuario y contrasena." << std::endl;
                 } else {
                     cliente.cambiarConexionRobot(); // Cambia el estado de conexión al robot
                 }
@@ -212,7 +212,7 @@ int main(int argc, char* argv[]) {
             }
             case 4: {
                 if (!autenticado) {
-                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
+                    std::cerr << "Debe ingresar primero con su usuario y contrasena." << std::endl;
                 } else {
                     cliente.solicitarSaludo(usuario);
                 }
@@ -224,24 +224,24 @@ int main(int argc, char* argv[]) {
             }
             case 6: {
                 if (!autenticado) {
-                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
+                    std::cerr << "Debe ingresar primero con su usuario y contrasena." << std::endl;
                 } else {
                     std::string gcode;
-                    std::cout << "Ingrese un código GCode: ";
+                    std::cout << "Ingrese un codigo GCode: ";
                     std::cin >> gcode;
 
                     if (verificarGCode(gcode)) {
-                        std::cout << "Código GCode válido. ¿Desea enviarlo al servidor? (s/n): ";
+                        std::cout << "Codigo GCode válido. ¿Desea enviarlo al servidor? (s/n): ";
                         char confirmacion;
                         std::cin >> confirmacion;
 
                         if (confirmacion == 's' || confirmacion == 'S') {
                             cliente.enviarGCode(usuario, gcode);
                         } else {
-                            std::cout << "Envío cancelado." << std::endl;
+                            std::cout << "Envio cancelado." << std::endl;
                         }
                     } else {
-                                                std::cerr << "El código GCode no es válido." << std::endl;
+                                                std::cerr << "El codigo GCode no es valido." << std::endl;
                     }
                 }
                 break;
@@ -250,7 +250,7 @@ int main(int argc, char* argv[]) {
                 std::cout << "Saliendo del programa..." << std::endl;
                 break;
             default:
-                std::cerr << "Opción no válida. Intente nuevamente." << std::endl;
+                std::cerr << "Opcion no valida. Intente nuevamente." << std::endl;
                 break;
         }
     } while (opcion != 7);
