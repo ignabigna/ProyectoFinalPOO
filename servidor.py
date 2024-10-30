@@ -1,4 +1,5 @@
 import csv
+import serial
 from xmlrpc.server import SimpleXMLRPCServer
 
 # Clase principal del servidor
@@ -6,6 +7,7 @@ class Servidor:
     def __init__(self):
         self.usuarios = self.cargar_usuarios("usuarios.csv")
         self.gcode_dict = self.cargar_gcode_descripciones("codigos_gcode.csv")
+        self.serial_port = self.iniciar_puerto_serial("COM3")
 
     # Cargar los usuarios y contraseñas desde el archivo CSV
     def cargar_usuarios(self, archivo_csv):
@@ -61,24 +63,47 @@ class Servidor:
             print(f"Error al cargar el archivo de códigos G-code: {e}")
         return gcode_dict
 
-    # Método para obtener el listado de G-codes y sus descripciones
-    def obtenerListadoGCodes(self):
-        return [f"{codigo}: {descripcion}" for codigo, descripcion in self.gcode_dict.items()]
+    # Inicializar el puerto serial
+    def iniciar_puerto_serial(self, puerto):
+        try:
+            ser = serial.Serial(puerto, 9600, timeout=1)  # Configurar el puerto COM3
+            print(f"Puerto {puerto} abierto correctamente.")
+            return ser
+        except serial.SerialException as e:
+            print(f"Error al abrir el puerto serial: {e}")
+            return None
 
-    # Método para enviar un G-code al robot
+    # Enviar G-code al puerto COM y devolver la descripción al cliente
     def enviarGCode(self, usuario, gcode):
         print(f"Usuario {usuario} ha enviado el código G-code: {gcode}")
+        
         if gcode in self.gcode_dict:
             descripcion = self.gcode_dict[gcode]
+
+            # Enviar el G-code por el puerto serial
+            if self.serial_port:
+                try:
+                    self.serial_port.write(f"{gcode}\n".encode())  # Enviar el código al puerto serial
+                    print(f"Código G-code {gcode} enviado al puerto COM3.")
+                except Exception as e:
+                    return f"Error al enviar el código G-code: {e}"
+
+            # Devolver la descripción del código al cliente
             return f"Código G-code válido: {descripcion}"
         else:
             return "Código G-code no reconocido."
+
+    # Método para obtener el listado de G-codes y sus descripciones
+    def obtenerListadoGCodes(self):
+        listado = []
+        for codigo, descripcion in self.gcode_dict.items():
+            listado.append(f"{codigo}: {descripcion}")
+        return listado
 
     # Método para saludar al usuario
     def saludar(self, nombre):
         print(f"Solicitud de saludo recibida de: {nombre}")
         return f"Hola, {nombre}! Bienvenido al servidor."
-
 
 # Configuración del servidor
 def iniciar_servidor():
