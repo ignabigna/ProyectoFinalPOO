@@ -1,32 +1,52 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <sstream>
-#include <vector>
-#include <algorithm>
 #include "libreria/XmlRpc.h"
 
 class ClienteXMLRPC {
 public:
     ClienteXMLRPC(const std::string& serverHost, int serverPort)
-        : client(serverHost.c_str(), serverPort), conectadoAlRobot(false) 
+        : client(serverHost.c_str(), serverPort) 
     {
         std::cout << "Cliente conectado a " << serverHost << " en el puerto " << serverPort << std::endl;
     }
 
-    void solicitarSaludo(const std::string& nombre) {
-        if (!conectadoAlRobot) {
-            std::cerr << "La conexion con el robot no esta activada." << std::endl;
-            return;
-        }
+    // Autenticación con el servidor
+    bool autenticarUsuario(const std::string& usuario, const std::string& contraseña) {
+        XmlRpc::XmlRpcValue args, result;
+        args[0] = usuario;
+        args[1] = contraseña;
 
+        try {
+            client.execute("autenticar_usuario", args, result);
+            return static_cast<bool>(result);
+        } catch (XmlRpc::XmlRpcException& e) {
+            std::cerr << "Error al autenticar con el servidor: " << e.getMessage() << std::endl;
+            return false;
+        }
+    }
+
+    // Registro de usuario en el servidor
+    void registrarUsuario(const std::string& usuario, const std::string& contraseña) {
+        XmlRpc::XmlRpcValue args, result;
+        args[0] = usuario;
+        args[1] = contraseña;
+
+        try {
+            client.execute("registrar_usuario", args, result);
+            std::cout << static_cast<std::string>(result) << std::endl;
+        } catch (XmlRpc::XmlRpcException& e) {
+            std::cerr << "Error al registrar con el servidor: " << e.getMessage() << std::endl;
+        }
+    }
+
+    // Solicitar saludo del servidor
+    void solicitarSaludo(const std::string& nombre) {
         XmlRpc::XmlRpcValue args, result;
         args[0] = nombre;
 
         try {
             std::cout << "Enviando solicitud de saludo al servidor..." << std::endl;
             client.execute("saludar", args, result);
-
             std::string saludo = static_cast<std::string>(result);
             std::cout << "Respuesta del servidor: " << saludo << std::endl;
 
@@ -35,28 +55,7 @@ public:
         }
     }
 
-    void enviarGCode(const std::string& usuario, const std::string& gcode) {
-        if (!conectadoAlRobot) {
-            std::cerr << "La conexion con el robot no esta activada." << std::endl;
-            return;
-        }
-
-        XmlRpc::XmlRpcValue args, result;
-        args[0] = usuario;
-        args[1] = gcode;
-
-        try {
-            std::cout << "Enviando comando GCode al servidor..." << std::endl;
-            client.execute("enviarGCode", args, result);
-
-            std::string respuesta = static_cast<std::string>(result);
-            std::cout << "Respuesta del servidor: " << respuesta << std::endl;
-
-        } catch (XmlRpc::XmlRpcException& e) {
-            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
-        }
-    }
-
+    // Solicitar listado de GCodes al servidor
     void obtenerListadoGCodes() {
         XmlRpc::XmlRpcValue params;  // Parámetro vacío
         XmlRpc::XmlRpcValue result;
@@ -75,87 +74,36 @@ public:
         }
     }
 
-    // Método para activar/desactivar la conexión al robot
-    void cambiarConexionRobot() {
-        conectadoAlRobot = !conectadoAlRobot;
-        std::cout << "Conexion con el robot " << (conectadoAlRobot ? "activada" : "desactivada") << "." << std::endl;
+    // Enviar GCode al servidor
+    void enviarGCode(const std::string& usuario, const std::string& gcode) {
+        XmlRpc::XmlRpcValue args, result;
+        args[0] = usuario;
+        args[1] = gcode;
+
+        try {
+            std::cout << "Enviando comando GCode al servidor..." << std::endl;
+            client.execute("enviarGCode", args, result);
+            std::string respuesta = static_cast<std::string>(result);
+            std::cout << "Respuesta del servidor: " << respuesta << std::endl;
+
+        } catch (XmlRpc::XmlRpcException& e) {
+            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
+        }
     }
 
 private:
     XmlRpc::XmlRpcClient client; 
-    bool conectadoAlRobot; // Bandera para indicar si la conexión al robot está activa
 };
 
-// Función para verificar credenciales en el archivo CSV
-bool verificarCredenciales(const std::string& usuario, const std::string& contraseña) {
-    std::ifstream archivo("usuarios.csv");
-    std::string linea, u, p;
-    
-    if (!archivo.is_open()) {
-        std::cerr << "No se pudo abrir el archivo CSV." << std::endl;
-        return false;
-    }
-
-    // Leer el archivo línea por línea
-    while (std::getline(archivo, linea)) {
-        std::stringstream ss(linea);
-        std::getline(ss, u, ',');
-        std::getline(ss, p, ',');
-
-        // Comprobar si el usuario y la contraseña coinciden
-        if (u == usuario && p == contraseña) {
-            return true;
-        }
-    }
-    
-    return false;
-}
-
-// Función para verificar si el código GCode está en el archivo CSV
-bool verificarGCode(const std::string& gcode) {
-    std::ifstream archivo("codigos_gcode.csv");
-    std::string linea, codigo;
-
-    if (!archivo.is_open()) {
-        std::cerr << "No se pudo abrir el archivo de codigos GCode." << std::endl;
-        return false;
-    }
-
-    // Leer el archivo línea por línea
-    while (std::getline(archivo, linea)) {
-        std::stringstream ss(linea);
-        std::getline(ss, codigo, ',');
-        
-        // Comprobar si el código coincide
-        if (codigo == gcode) {
-            return true;
-        }
-    }
-    
-    return false;
-}
-
-// Función para registrar un nuevo usuario
-void registrarNuevoUsuario(const std::string& usuario, const std::string& contraseña) {
-    std::ofstream archivo("usuarios.csv", std::ios::app); // Abrir el archivo en modo de añadir
-    if (archivo.is_open()) {
-        archivo << usuario << "," << contraseña << std::endl;
-        std::cout << "Usuario registrado correctamente." << std::endl;
-    } else {
-        std::cerr << "Error al abrir el archivo CSV para escritura." << std::endl;
-    }
-}
-
-// Menú principal
+// Función para mostrar el menú principal
 void mostrarMenu() {
     std::cout << "\n--- ***Cliente*** ---" << std::endl;
-    std::cout << "1. Ingresar usuario y contrasena" << std::endl;
+    std::cout << "1. Ingresar usuario y contraseña" << std::endl;
     std::cout << "2. Registrar nuevo usuario" << std::endl;
-    std::cout << "3. Activar/Desactivar conexion con el robot" << std::endl;
-    std::cout << "4. Solicitar saludo al servidor" << std::endl;
-    std::cout << "5. Solicitar listado de GCodes" << std::endl;
-    std::cout << "6. Ingresar comando GCode" << std::endl;
-    std::cout << "7. Salir" << std::endl;
+    std::cout << "3. Solicitar saludo al servidor" << std::endl;
+    std::cout << "4. Solicitar listado de GCodes" << std::endl;
+    std::cout << "5. Ingresar comando GCode" << std::endl;
+    std::cout << "6. Salir" << std::endl;
     std::cout << "Seleccione una opcion: ";
 }
 
@@ -169,27 +117,26 @@ int main(int argc, char* argv[]) {
     int serverPort = std::stoi(argv[2]);
 
     ClienteXMLRPC cliente(serverHost, serverPort);
-    std::string usuario, contraseña;
-    bool autenticado = false; // Variable para controlar si está autenticado
-    int opcion;
+    bool autenticado = false;
+    std::string usuario;
 
-    do {
+    while (true) {
         mostrarMenu();
+        int opcion;
         std::cin >> opcion;
 
         switch (opcion) {
             case 1: {
+                std::string contraseña;
                 std::cout << "Ingrese su usuario: ";
                 std::cin >> usuario;
-                std::cout << "Ingrese su contrasena: ";
+                std::cout << "Ingrese su contraseña: ";
                 std::cin >> contraseña;
-
-                if (verificarCredenciales(usuario, contraseña)) {
-                    std::cout << "Usuario autenticado correctamente." << std::endl;
-                    autenticado = true;
+                autenticado = cliente.autenticarUsuario(usuario, contraseña);
+                if (autenticado) {
+                    std::cout << "Autenticación exitosa." << std::endl;
                 } else {
-                    std::cerr << "Credenciales incorrectas." << std::endl;
-                    autenticado = false; // Desautenticado si las credenciales son incorrectas
+                    std::cout << "Usuario o contraseña incorrectos." << std::endl;
                 }
                 break;
             }
@@ -199,62 +146,50 @@ int main(int argc, char* argv[]) {
                 std::cin >> nuevoUsuario;
                 std::cout << "Ingrese una nueva contraseña: ";
                 std::cin >> nuevaContraseña;
-                registrarNuevoUsuario(nuevoUsuario, nuevaContraseña);
+                cliente.registrarUsuario(nuevoUsuario, nuevaContraseña);
                 break;
             }
             case 3: {
                 if (!autenticado) {
-                    std::cerr << "Debe ingresar primero con su usuario y contrasena." << std::endl;
-                } else {
-                    cliente.cambiarConexionRobot(); // Cambia el estado de conexión al robot
-                }
-                break;
-            }
-            case 4: {
-                if (!autenticado) {
-                    std::cerr << "Debe ingresar primero con su usuario y contrasena." << std::endl;
+                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
                 } else {
                     cliente.solicitarSaludo(usuario);
                 }
                 break;
             }
-            case 5: {
-                cliente.obtenerListadoGCodes();  // Solicitar lista de comandos al servidor
+            case 4: {
+                if (!autenticado) {
+                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
+                } else {
+                    cliente.obtenerListadoGCodes();
+                }
                 break;
             }
-            case 6: {
+            case 5: {
                 if (!autenticado) {
-                    std::cerr << "Debe ingresar primero con su usuario y contrasena." << std::endl;
+                    std::cerr << "Debe ingresar primero con su usuario y contraseña." << std::endl;
                 } else {
                     std::string gcode;
-                    std::cout << "Ingrese un codigo GCode: ";
+                    std::cout << "Ingrese un código GCode: ";
                     std::cin >> gcode;
 
-                    if (verificarGCode(gcode)) {
-                        std::cout << "Codigo GCode válido. ¿Desea enviarlo al servidor? (s/n): ";
-                        char confirmacion;
-                        std::cin >> confirmacion;
+                    std::cout << "¿Desea enviarlo al servidor? (s/n): ";
+                    char confirmacion;
+                    std::cin >> confirmacion;
 
-                        if (confirmacion == 's' || confirmacion == 'S') {
-                            cliente.enviarGCode(usuario, gcode);
-                        } else {
-                            std::cout << "Envio cancelado." << std::endl;
-                        }
+                    if (confirmacion == 's' || confirmacion == 'S') {
+                        cliente.enviarGCode(usuario, gcode);
                     } else {
-                                                std::cerr << "El codigo GCode no es valido." << std::endl;
+                        std::cout << "Envío cancelado." << std::endl;
                     }
                 }
                 break;
             }
-            case 7:
+            case 6:
                 std::cout << "Saliendo del programa..." << std::endl;
-                break;
+                return 0;
             default:
-                std::cerr << "Opcion no valida. Intente nuevamente." << std::endl;
-                break;
+                std::cerr << "Opción inválida. Intente nuevamente." << std::endl;
         }
-    } while (opcion != 7);
-
-    return 0;
+    }
 }
-
