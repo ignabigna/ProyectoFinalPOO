@@ -1,16 +1,51 @@
+# servidor.py
 import csv
 import serial
 from xmlrpc.server import SimpleXMLRPCServer
 import time
+from Logger import Logger  # Importa la clase Logger
+from ErrorManager import ErrorManager  # Importa la clase ErrorManager
+
+
 
 # Clase principal del servidor
 class Servidor:
     def __init__(self):
+        # Inicializar el logger y el gestor de errores
+        self.logger = Logger(__name__)
+        self.error_manager = ErrorManager(self.logger)
+
+        # Inicialización de atributos
         self.usuarios = self.cargar_usuarios("usuarios.csv")
         self.gcode_dict = self.cargar_gcode_descripciones("codigos_gcode.csv")
-        self.serial_port = self.iniciar_puerto_serial("COM3")
+        self.serial_port = None  # Inicialización sin conexión al puerto COM
+        self.motores_activados = False  # Estado de los motores
+        self.homing_realizado = False  # Indica si se ha realizado homing
 
-    # Cargar los usuarios y contraseñas desde el archivo CSV
+        # Límites de operación
+        self.limites_espacio_trabajo = {
+            'Z': (-88, 150),  # Valores de Z_MIN y Z_MAX según config.h
+            'R': (100, 240)   # Valores de R_MIN y R_MAX calculados según config.h
+        }
+        self.velocidad_maxima = 100  # Velocidad máxima en mm/s
+    
+    def validar_comando_gcode(self, gcode):
+        """
+        Valida si un comando G-Code es viable en función de los parámetros geométricos y cinemáticos del robot.
+        """
+        if gcode.startswith("G1"):
+            partes = gcode.split()
+            coordenadas = {}
+            for parte in partes[1:]:
+                if parte[0] in 'XYZR':
+                    valor = float(parte[1:])
+                    if parte[0] in self.limites_espacio_trabajo:
+                        limite_min, limite_max = self.limites_espacio_trabajo[parte[0]]
+                        if not (limite_min <= valor <= limite_max):
+                            return False, f"ERROR: {parte[0]}={valor} fuera del rango permitido ({limite_min}, {limite_max})"
+            return True, "Comando G1 válido"
+        return True, "Comando válido"
+    
     def cargar_usuarios(self, archivo_csv):
         usuarios = {}
         try:
@@ -19,14 +54,17 @@ class Servidor:
                 for row in reader:
                     if len(row) >= 2:
                         usuarios[row[0]] = row[1]  # usuario: contraseña
-            print("Usuarios cargados correctamente.")
+            self.logger.info("Usuarios cargados correctamente.")
+        except FileNotFoundError as e:
+            raise FileNotFoundError(self.error_manager.handle_error(e, f"El archivo {archivo_csv} no se encontró"))
         except Exception as e:
-            print(f"Error al cargar el archivo de usuarios: {e}")
+            raise Exception(self.error_manager.handle_error(e, "Error al cargar el archivo de usuarios"))
         return usuarios
 
     # Registrar un nuevo usuario en el archivo CSV
     def registrar_usuario(self, usuario, contraseña):
         if usuario in self.usuarios:
+            self.error_manager.handle_warning(f"Intento de registrar un usuario ya existente: {usuario}")
             return "El usuario ya existe."
         else:
             self.usuarios[usuario] = contraseña
@@ -34,19 +72,18 @@ class Servidor:
                 with open("usuarios.csv", mode="a", newline="") as file:
                     writer = csv.writer(file)
                     writer.writerow([usuario, contraseña])
-                print(f"Usuario {usuario} registrado correctamente.")
+                self.logger.info(f"Usuario {usuario} registrado correctamente.")
                 return "Usuario registrado correctamente."
             except Exception as e:
-                print(f"Error al registrar el usuario: {e}")
-                return f"Error al registrar el usuario: {e}"
+                return self.error_manager.handle_error(e, "Error al registrar el usuario")
 
     # Validar credenciales de usuario
     def autenticar_usuario(self, usuario, contraseña):
         if usuario in self.usuarios and self.usuarios[usuario] == contraseña:
-            print(f"Usuario {usuario} autenticado correctamente.")
+            self.logger.info(f"Usuario {usuario} autenticado correctamente.")
             return True
         else:
-            print(f"Autenticación fallida para el usuario {usuario}.")
+            self.error_manager.handle_warning(f"Autenticación fallida para el usuario {usuario}.")
             return False
 
     # Cargar los códigos G-code y sus descripciones desde el archivo CSV
@@ -59,64 +96,139 @@ class Servidor:
                 for row in reader:
                     if len(row) >= 2:
                         gcode_dict[row[0]] = row[1]  # GCode: descripción
-            print("Códigos G-code cargados correctamente.")
+            self.logger.info("Códigos G-code cargados correctamente.")
         except Exception as e:
-            print(f"Error al cargar el archivo de códigos G-code: {e}")
+            self.error_manager.handle_error(e, "Error al cargar el archivo de códigos G-code")
         return gcode_dict
 
     # Inicializar el puerto serial con el baud rate correcto
     def iniciar_puerto_serial(self, puerto):
         try:
             ser = serial.Serial(puerto, 115200, timeout=1)  # Configurar el puerto COM3 con baud rate 115200
-            print(f"Puerto {puerto} abierto correctamente.")
+            self.logger.info(f"Puerto {puerto} abierto correctamente.")
             return ser
         except serial.SerialException as e:
-            print(f"Error al abrir el puerto serial: {e}")
-            return None
+            return self.error_manager.handle_error(e, f"Error al abrir el puerto serial en {puerto}")
 
-    # Enviar G-code al puerto COM y devolver la descripción al cliente
-   # Enviar G-code al puerto COM y devolver la descripción al cliente
-    def enviarGCode(self, usuario, gcode):
-        print(f"Usuario {usuario} ha enviado el código G-code: {gcode}")
         
-        if gcode in self.gcode_dict:
-            descripcion = self.gcode_dict[gcode]
-
-            # Enviar el G-code por el puerto serial
-            if self.serial_port:
-                try:
-                    # Enviar el código G-code con terminación NL & CR
-                    self.serial_port.write(f"{gcode}\r\n".encode())  
-                    print(f"Código G-code {gcode} enviado al puerto COM3.")
-                    
-                    # Esperar un tiempo para que el Arduino procese el comando
-                    time.sleep(2)  # Ajusta el tiempo según sea necesario
-
-                    # Leer la respuesta del Arduino
-                    respuesta_arduino = self.serial_port.readline().decode("ISO-8859-1").strip()
-                    print(f"Respuesta del Arduino: {respuesta_arduino}")
-
-                    # Enviar la respuesta del Arduino al cliente
-                    return f"{descripcion} - Respuesta del Arduino: {respuesta_arduino}"
-                except Exception as e:
-                    return f"Error al enviar el código G-code: {e}"
-
-            return f"Código G-code válido: {descripcion}"
+    # Método para conectar al robot cuando lo solicite el cliente
+    def conectar_robot(self):
+        if self.serial_port is None:
+            try:
+                self.serial_port = serial.Serial("COM3", 115200, timeout=1)
+                self.logger.info("Puerto COM3 abierto correctamente.")
+                inicializacion = []
+                
+                for _ in range(2):
+                    linea = self.serial_port.readline().decode("ISO-8859-1").strip()
+                    while not linea:
+                        linea = self.serial_port.readline().decode("ISO-8859-1").strip()
+                    inicializacion.append(linea)
+                    self.logger.info(f"Línea recibida del Arduino: {linea}")
+                
+                return inicializacion
+            except serial.SerialException as e:
+                raise serial.SerialException(self.error_manager.handle_error(e, "Error al abrir el puerto serial"))
         else:
-            return "Código G-code no reconocido."
+            self.error_manager.handle_warning("Intento de conectar al robot cuando ya estaba conectado.")
+            return ["El robot ya está conectado."]
 
-            
-    def leer_respuesta_arduino(self):
-        """Lee cualquier respuesta disponible del Arduino en el puerto serial"""
+    def desconectar_robot(self):
+        if self.serial_port is not None:
+            try:
+                self.serial_port.close()
+                self.serial_port = None
+                self.logger.info("El robot se ha desconectado correctamente.")
+                return "El robot se ha desconectado correctamente."
+            except Exception as e:
+                return self.error_manager.handle_error(e, "Error al desconectar el robot")
+        else:
+            return self.error_manager.handle_warning("El robot ya está desconectado.")
+        
+    def activar_motores(self):
         try:
-            if self.serial_port.in_waiting > 0:  # Verifica si hay datos disponibles para leer
-                respuesta = self.serial_port.read(self.serial_port.in_waiting).decode("ISO-8859-1").strip()
-                print(f"Respuesta completa del Arduino: {respuesta}")
-                return respuesta
-            else:
-                return "Sin respuesta del Arduino."
+            if self.serial_port is None:
+                raise ConnectionError("El robot no está conectado.")
+            
+            self.serial_port.write("M17\r\n".encode())
+            self.logger.info("Comando M17 enviado: Motores activados.")
+            self.motores_activados = True
+            self.homing_realizado = False  # Resetear el estado de homing al activar motores
+            return "Motores activados correctamente."
         except Exception as e:
+            return self.error_manager.handle_error(e, "Error al activar los motores")
+
+        
+    def desactivar_motores(self):
+        try:
+            if self.serial_port is None:
+                raise ConnectionError("El robot no está conectado.")
+            
+            self.serial_port.write("M18\r\n".encode())
+            self.logger.info("Comando M18 enviado: Motores desactivados.")
+            self.motores_activados = False
+            return "Motores desactivados correctamente."
+        except Exception as e:
+            return self.error_manager.handle_error(e, "Error al desactivar los motores")
+
+    def enviarGCode(self, usuario, gcode):
+        try:
+            if self.serial_port is None:
+                raise ConnectionError("El robot no está conectado. Conéctese primero antes de enviar comandos G-Code.")
+            
+            if not self.motores_activados:
+                raise RuntimeError("Los motores deben estar activados antes de enviar cualquier comando.")
+            
+            if gcode != "G28" and not self.homing_realizado:
+                raise RuntimeError("El homing (G28) debe realizarse como la primera acción después de activar los motores.")
+            
+            valido, mensaje = self.validar_comando_gcode(gcode)
+            if not valido:
+                return mensaje
+
+            self.logger.info(f"Usuario {usuario} ha enviado el código G-code: {gcode}")
+
+            if gcode in self.gcode_dict:
+                if gcode == "G28":
+                    self.homing_realizado = True
+
+                descripcion = self.gcode_dict[gcode]
+                self.serial_port.write(f"{gcode}\r\n".encode())
+                self.logger.info(f"Código G-code {gcode} enviado al puerto COM3.")
+                
+                time.sleep(2)  # Ajustar el tiempo de espera si es necesario
+
+                # Leer la respuesta completa del Arduino
+                respuesta_arduino = self.leer_respuesta_arduino_completa()
+                return f"{descripcion} - Respuesta del Arduino:\n{respuesta_arduino}"
+
+            return self.error_manager.handle_warning("Código G-code no reconocido.")
+        
+        except (ConnectionError, TimeoutError, RuntimeError) as e:
+            return self.error_manager.handle_error(e)
+        except Exception as e:
+            return self.error_manager.handle_error(e, "Error al enviar el código G-code")
+
+        
+    def leer_respuesta_arduino_completa(self):
+        """
+        Lee todas las líneas disponibles del Arduino en el puerto serial hasta que no haya más respuestas.
+        """
+        respuesta_completa = []
+        try:
+            # Leer todas las líneas disponibles en el buffer de la terminal serial
+            while self.serial_port.in_waiting > 0:
+                linea = self.serial_port.readline().decode("ISO-8859-1").strip()
+                if linea:
+                    respuesta_completa.append(linea)
+                    self.logger.info(f"Línea recibida del Arduino: {linea}")
+            
+            # Retornar todas las líneas como una lista unida por saltos de línea
+            return "\n".join(respuesta_completa) if respuesta_completa else "Sin respuesta del Arduino."
+        except Exception as e:
+            self.logger.error(f"Error al leer la respuesta del Arduino: {e}")
             return f"Error al leer la respuesta del Arduino: {e}"
+
 
     # Método para obtener el listado de G-codes y sus descripciones
     def obtenerListadoGCodes(self):
@@ -127,7 +239,7 @@ class Servidor:
 
     # Método para saludar al usuario
     def saludar(self, nombre):
-        print(f"Solicitud de saludo recibida de: {nombre}")
+        self.logger.info(f"Solicitud de saludo recibida de: {nombre}")
         return f"Hola, {nombre}! Bienvenido al servidor."
 
 # Configuración del servidor
