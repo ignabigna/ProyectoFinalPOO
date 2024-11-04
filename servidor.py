@@ -1,6 +1,7 @@
 import csv
 import serial
 from xmlrpc.server import SimpleXMLRPCServer
+import time
 
 # Clase principal del servidor
 class Servidor:
@@ -63,10 +64,10 @@ class Servidor:
             print(f"Error al cargar el archivo de códigos G-code: {e}")
         return gcode_dict
 
-    # Inicializar el puerto serial
+    # Inicializar el puerto serial con el baud rate correcto
     def iniciar_puerto_serial(self, puerto):
         try:
-            ser = serial.Serial(puerto, 9600, timeout=1)  # Configurar el puerto COM3
+            ser = serial.Serial(puerto, 115200, timeout=1)  # Configurar el puerto COM3 con baud rate 115200
             print(f"Puerto {puerto} abierto correctamente.")
             return ser
         except serial.SerialException as e:
@@ -74,6 +75,7 @@ class Servidor:
             return None
 
     # Enviar G-code al puerto COM y devolver la descripción al cliente
+   # Enviar G-code al puerto COM y devolver la descripción al cliente
     def enviarGCode(self, usuario, gcode):
         print(f"Usuario {usuario} ha enviado el código G-code: {gcode}")
         
@@ -83,15 +85,38 @@ class Servidor:
             # Enviar el G-code por el puerto serial
             if self.serial_port:
                 try:
-                    self.serial_port.write(f"{gcode}\n".encode())  # Enviar el código al puerto serial
+                    # Enviar el código G-code con terminación NL & CR
+                    self.serial_port.write(f"{gcode}\r\n".encode())  
                     print(f"Código G-code {gcode} enviado al puerto COM3.")
+                    
+                    # Esperar un tiempo para que el Arduino procese el comando
+                    time.sleep(2)  # Ajusta el tiempo según sea necesario
+
+                    # Leer la respuesta del Arduino
+                    respuesta_arduino = self.serial_port.readline().decode("ISO-8859-1").strip()
+                    print(f"Respuesta del Arduino: {respuesta_arduino}")
+
+                    # Enviar la respuesta del Arduino al cliente
+                    return f"{descripcion} - Respuesta del Arduino: {respuesta_arduino}"
                 except Exception as e:
                     return f"Error al enviar el código G-code: {e}"
 
-            # Devolver la descripción del código al cliente
             return f"Código G-code válido: {descripcion}"
         else:
             return "Código G-code no reconocido."
+
+            
+    def leer_respuesta_arduino(self):
+        """Lee cualquier respuesta disponible del Arduino en el puerto serial"""
+        try:
+            if self.serial_port.in_waiting > 0:  # Verifica si hay datos disponibles para leer
+                respuesta = self.serial_port.read(self.serial_port.in_waiting).decode("ISO-8859-1").strip()
+                print(f"Respuesta completa del Arduino: {respuesta}")
+                return respuesta
+            else:
+                return "Sin respuesta del Arduino."
+        except Exception as e:
+            return f"Error al leer la respuesta del Arduino: {e}"
 
     # Método para obtener el listado de G-codes y sus descripciones
     def obtenerListadoGCodes(self):

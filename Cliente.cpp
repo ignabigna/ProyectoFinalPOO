@@ -40,20 +40,20 @@ public:
     }
 
     // Solicitar saludo del servidor
-    void solicitarSaludo(const std::string& nombre) {
-        XmlRpc::XmlRpcValue args, result;
-        args[0] = nombre;
+        void solicitarSaludo(const std::string& nombre) {
+            XmlRpc::XmlRpcValue args, result;
+            args[0] = nombre;
 
-        try {
-            std::cout << "Enviando solicitud de saludo al servidor..." << std::endl;
-            client.execute("saludar", args, result);
-            std::string saludo = static_cast<std::string>(result);
-            std::cout << "Respuesta del servidor: " << saludo << std::endl;
+            try {
+                std::cout << "Enviando solicitud de saludo al servidor..." << std::endl;
+                client.execute("saludar", args, result);
+                std::string saludo = static_cast<std::string>(result);
+                std::cout << "Respuesta del servidor: " << saludo << std::endl;
 
-        } catch (XmlRpc::XmlRpcException& e) {
-            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
+            } catch (XmlRpc::XmlRpcException& e) {
+                std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
+            }
         }
-    }
 
     // Solicitar listado de GCodes al servidor
     void obtenerListadoGCodes() {
@@ -193,3 +193,4 @@ int main(int argc, char* argv[]) {
         }
     }
 }
+ 
