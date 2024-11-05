@@ -1,0 +1,233 @@
+2024-11-04 10:43:43,508 - Usuarios cargados correctamente.
+2024-11-04 10:43:51,625 - Usuarios cargados correctamente.
+2024-11-04 10:44:22,729 - Usuarios cargados correctamente.
+2024-11-04 10:45:44,341 - Puerto COM3 abierto correctamente.
+2024-11-04 10:45:46,002 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 10:45:46,002 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 10:46:22,976 - Usuarios cargados correctamente.
+2024-11-04 10:46:53,588 - Usuarios cargados correctamente.
+2024-11-04 10:48:39,193 - Puerto COM3 abierto correctamente.
+2024-11-04 10:48:40,857 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 10:48:40,865 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 10:53:54,658 - Usuarios cargados correctamente.
+2024-11-04 10:54:23,650 - Puerto COM3 abierto correctamente.
+2024-11-04 10:54:25,323 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 10:54:25,323 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 10:59:05,143 - Usuarios cargados correctamente.
+2024-11-04 10:59:46,707 - Puerto COM3 abierto correctamente.
+2024-11-04 10:59:48,371 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 10:59:48,371 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 11:00:06,096 - Usuario Nico ha enviado el código G-code: M3
+2024-11-04 11:00:06,096 - Código G-code M3 enviado al puerto COM3.
+2024-11-04 11:00:08,103 - Respuesta del Arduino: INFO: GRIPPER ON
+2024-11-04 11:26:11,150 - Usuarios cargados correctamente.
+2024-11-04 11:26:11,151 - Códigos G-code cargados correctamente.
+2024-11-04 11:26:19,665 - Usuario Nico autenticado correctamente.
+2024-11-04 11:26:31,886 - Puerto COM3 abierto correctamente.
+2024-11-04 11:26:33,546 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 11:26:33,550 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 11:26:36,703 - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-04 11:40:28,008 - Usuarios cargados correctamente.
+2024-11-04 11:40:28,008 - Códigos G-code cargados correctamente.
+2024-11-04 11:40:39,157 - Autenticación fallida para el usuario Nico.
+2024-11-04 11:40:47,752 - Usuario Nico autenticado correctamente.
+2024-11-04 11:41:16,666 - Puerto COM3 abierto correctamente.
+2024-11-04 11:41:18,326 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 11:41:18,329 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 11:41:44,698 - Usuario Nico ha enviado el código G-code: G28
+2024-11-04 11:41:44,699 - Código G-code G28 enviado al puerto COM3.
+2024-11-04 11:41:46,701 - Respuesta del Arduino: INFO: HOMING
+2024-11-04 11:59:49,217 - Usuarios cargados correctamente.
+2024-11-04 11:59:49,217 - Códigos G-code cargados correctamente.
+2024-11-04 12:01:32,842 - Usuario Nico autenticado correctamente.
+2024-11-04 12:01:58,560 - Usuario Nico autenticado correctamente.
+2024-11-04 12:02:06,668 - Puerto COM3 abierto correctamente.
+2024-11-04 12:02:08,331 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 12:02:08,332 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 12:02:24,045 - Usuarios cargados correctamente.
+2024-11-04 12:02:24,045 - Códigos G-code cargados correctamente.
+2024-11-04 12:02:32,040 - Usuario Nico autenticado correctamente.
+2024-11-04 12:02:38,231 - Puerto COM3 abierto correctamente.
+2024-11-04 12:02:39,915 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 12:02:39,916 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 12:03:02,577 - Usuario Nico ha enviado el código G-code: M3
+2024-11-04 12:03:02,577 - Código G-code M3 enviado al puerto COM3.
+2024-11-04 12:03:04,578 - Respuesta del Arduino: INFO: GRIPPER ON
+2024-11-04 12:04:52,718 - Usuarios cargados correctamente.
+2024-11-04 12:04:52,719 - Códigos G-code cargados correctamente.
+2024-11-04 12:04:58,085 - Usuario Nico autenticado correctamente.
+2024-11-04 12:05:19,314 - Puerto COM3 abierto correctamente.
+2024-11-04 12:05:20,975 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 12:05:20,978 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 12:05:37,404 - Error al enviar el código G-code: 'Servidor' object has no attribute 'motores_activados'
+2024-11-04 12:06:01,499 - Comando M17 enviado: Motores activados.
+2024-11-04 12:06:11,970 - Usuario Nico ha enviado el código G-code: G28
+2024-11-04 12:06:11,971 - Código G-code G28 enviado al puerto COM3.
+2024-11-04 12:06:13,972 - Respuesta del Arduino: INFO: HOMING
+2024-11-04 12:06:21,616 - Usuario Nico ha enviado el código G-code: M3
+2024-11-04 12:06:21,617 - Código G-code M3 enviado al puerto COM3.
+2024-11-04 12:06:23,618 - Respuesta del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-04 12:36:20,469 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,470 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,470 - Usuario usuario_test ha enviado el código G-code: G1 X100
+2024-11-04 12:36:20,470 - Código G-code no reconocido.
+2024-11-04 12:36:20,470 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,470 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,470 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,470 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,471 - Usuario usuario_test ha enviado el código G-code: G1 Z100
+2024-11-04 12:36:20,471 - Usuario usuario_test ha enviado el código G-code: G1 Z100
+2024-11-04 12:36:20,471 - Código G-code no reconocido.
+2024-11-04 12:36:20,471 - Código G-code no reconocido.
+2024-11-04 12:36:20,471 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,471 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,471 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,471 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,471 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,471 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,474 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,474 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,474 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,474 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,474 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,474 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,474 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,474 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,475 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,475 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,475 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,475 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,475 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,476 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,476 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,476 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,476 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,476 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,476 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:36:20,476 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:36:20,476 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:36:20,476 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:36:20,476 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:36:20,477 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,477 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,477 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,477 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,477 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,477 - Usuarios cargados correctamente.
+2024-11-04 12:36:20,496 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,496 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,496 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,496 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,496 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,496 - Códigos G-code cargados correctamente.
+2024-11-04 12:36:20,498 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:36:20,498 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:36:20,498 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:36:20,498 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:36:20,498 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:36:20,498 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:38:42,128 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,129 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,129 - Usuario usuario_test ha enviado el código G-code: G1 X100
+2024-11-04 12:38:42,129 - Código G-code no reconocido.
+2024-11-04 12:38:42,129 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,129 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,130 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,130 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,130 - Usuario usuario_test ha enviado el código G-code: G1 Z100
+2024-11-04 12:38:42,130 - Usuario usuario_test ha enviado el código G-code: G1 Z100
+2024-11-04 12:38:42,130 - Código G-code no reconocido.
+2024-11-04 12:38:42,130 - Código G-code no reconocido.
+2024-11-04 12:38:42,131 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,131 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,131 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,131 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,131 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,131 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,132 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,132 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,132 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,132 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,133 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,133 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,133 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,133 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,133 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,133 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,133 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,133 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,133 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,134 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,134 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,134 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,134 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,134 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,134 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:38:42,134 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:38:42,134 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:38:42,134 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:38:42,134 - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-04 12:38:42,135 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,135 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,135 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,135 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,135 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,135 - Usuarios cargados correctamente.
+2024-11-04 12:38:42,136 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,136 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,136 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,136 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,136 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,136 - Códigos G-code cargados correctamente.
+2024-11-04 12:38:42,137 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:38:42,137 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:38:42,137 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:38:42,137 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:38:42,137 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:38:42,137 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:40:49,308 - Usuarios cargados correctamente.
+2024-11-04 12:40:49,309 - Códigos G-code cargados correctamente.
+2024-11-04 12:41:04,809 - Usuario Nico autenticado correctamente.
+2024-11-04 12:41:15,820 - Puerto COM3 abierto correctamente.
+2024-11-04 12:41:17,483 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 12:41:17,485 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 12:41:38,277 - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-04 12:41:49,329 - Comando M17 enviado: Motores activados.
+2024-11-04 12:41:58,473 - Usuario Nico ha enviado el código G-code: G28
+2024-11-04 12:41:58,474 - Código G-code G28 enviado al puerto COM3.
+2024-11-04 12:42:00,475 - Respuesta del Arduino: INFO: HOMING
+2024-11-04 13:12:12,898 - Usuarios cargados correctamente.
+2024-11-04 13:12:12,898 - Códigos G-code cargados correctamente.
+2024-11-04 13:12:29,599 - Usuario Nico autenticado correctamente.
+2024-11-04 13:13:07,926 - Error al activar los motores: El robot no está conectado.
+2024-11-04 13:13:14,642 - Error al abrir el puerto serial: could not open port 'COM3': PermissionError(13, 'Acceso denegado.', None, 5)
+2024-11-04 13:13:36,215 - Usuarios cargados correctamente.
+2024-11-04 13:13:36,216 - Códigos G-code cargados correctamente.
+2024-11-04 13:13:42,482 - Usuario Nico autenticado correctamente.
+2024-11-04 13:13:48,091 - Puerto COM3 abierto correctamente.
+2024-11-04 13:13:49,752 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 13:13:49,756 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 13:13:53,881 - Comando M17 enviado: Motores activados.
+2024-11-04 13:14:07,777 - Usuario Nico ha enviado el código G-code: G28
+2024-11-04 13:14:07,777 - Código G-code G28 enviado al puerto COM3.
+2024-11-04 13:14:09,778 - Línea recibida del Arduino: INFO: HOMING
+2024-11-04 13:14:09,781 - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-04 13:21:12,787 - Usuarios cargados correctamente.
+2024-11-04 13:21:12,788 - Códigos G-code cargados correctamente.
+2024-11-04 13:21:19,199 - Usuario Nico autenticado correctamente.
+2024-11-04 13:33:59,031 - Usuarios cargados correctamente.
+2024-11-04 13:33:59,032 - Códigos G-code cargados correctamente.
+2024-11-04 13:34:07,878 - Autenticación fallida para el usuario Nico.
+2024-11-04 13:34:16,172 - Usuario Nico autenticado correctamente.
+2024-11-04 13:34:20,056 - Puerto COM3 abierto correctamente.
+2024-11-04 13:34:21,717 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-04 13:34:21,721 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-04 13:34:26,371 - Comando M17 enviado: Motores activados.
+2024-11-04 13:34:33,220 - Usuario Nico ha enviado el código G-code: G28
+2024-11-04 13:34:33,221 - Código G-code G28 enviado al puerto COM3.
+2024-11-04 13:34:35,222 - Línea recibida del Arduino: INFO: HOMING
+2024-11-04 13:34:35,225 - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-04 13:34:51,702 - Usuario Nico ha enviado el código G-code: G1 X2.00 Y3.00 Z4.00 F2.00
+2024-11-04 13:34:51,703 - Código G-code no reconocido.
+2024-11-04 13:35:36,887 - Usuario Nico ha enviado el código G-code: G1 X150.00 Y150.00 Z0.00 F20.00
+2024-11-04 13:35:36,888 - Código G-code no reconocido.
