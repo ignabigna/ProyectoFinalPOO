@@ -1,0 +1,13 @@
+2024-11-05 18:52:59,558 - INFO - Usuarios cargados correctamente.
+2024-11-05 18:52:59,559 - INFO - Códigos G-code cargados correctamente.
+2024-11-05 18:53:10,655 - INFO - Usuario eze autenticado correctamente.
+2024-11-05 18:53:12,532 - INFO - Puerto COM3 abierto correctamente.
+2024-11-05 18:53:14,088 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-05 18:53:14,090 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-05 18:53:14,097 - INFO - Comando M17 enviado: Motores activados.
+2024-11-05 18:53:19,129 - INFO - Usuario eze ha enviado el código G-code: G28
+2024-11-05 18:53:19,133 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-05 18:53:21,133 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-05 18:53:21,133 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-05 18:53:33,516 - INFO - Usuario eze ha enviado el código G-code: G1 X100 Y100 Z90 E5
+2024-11-05 18:53:33,517 - WARNING - Código G-code no reconocido.
