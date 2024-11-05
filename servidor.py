@@ -37,7 +37,7 @@ class Servidor:
             partes = gcode.split()
             coordenadas = {}
             for parte in partes[1:]:
-                if parte[0] in 'XYZR':
+                if parte[0] in 'XYZRE':
                     valor = float(parte[1:])
                     if parte[0] in self.limites_espacio_trabajo:
                         limite_min, limite_max = self.limites_espacio_trabajo[parte[0]]
@@ -171,6 +171,7 @@ class Servidor:
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al desactivar los motores")
 
+
     def enviarGCode(self, usuario, gcode):
         try:
             if self.serial_port is None:
@@ -179,23 +180,27 @@ class Servidor:
             if not self.motores_activados:
                 raise RuntimeError("Los motores deben estar activados antes de enviar cualquier comando.")
             
+            # Verificar si se ha realizado el homing antes de otros comandos
             if gcode != "G28" and not self.homing_realizado:
                 raise RuntimeError("El homing (G28) debe realizarse como la primera acción después de activar los motores.")
             
+            # Validar el formato del G-code
             valido, mensaje = self.validar_comando_gcode(gcode)
             if not valido:
                 return mensaje
 
             self.logger.info(f"Usuario {usuario} ha enviado el código G-code: {gcode}")
-            
-            # Mensaje de depuración para verificar que el comando se enviará
-            print(f"Enviando comando al puerto serial: {gcode}")
-            
-            if gcode in self.gcode_dict:
-                if gcode == "G28":
-                    self.homing_realizado = True
 
-                descripcion = self.gcode_dict[gcode]
+            # Verificar si el comando G1 es válido sin importar los parámetros específicos
+            comando_base = gcode.split()[0]
+            if comando_base in self.gcode_dict:
+                if comando_base == "G28":
+                    self.homing_realizado = True  # Actualizar la variable al enviar el G28
+                    descripcion = "Homing completado"  # Descripción opcional
+                elif comando_base == "G1":
+                    descripcion = "Movimiento lineal"
+                else:
+                    descripcion = self.gcode_dict[comando_base]
                 self.serial_port.write(f"{gcode}\r\n".encode())
                 self.logger.info(f"Código G-code {gcode} enviado al puerto COM3.")
                 
@@ -211,6 +216,7 @@ class Servidor:
             return self.error_manager.handle_error(e)
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al enviar el código G-code")
+
         
     def leer_respuesta_arduino_completa(self):
         """
