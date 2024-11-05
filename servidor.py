@@ -115,8 +115,8 @@ class Servidor:
     def conectar_robot(self):
         if self.serial_port is None:
             try:
-                self.serial_port = serial.Serial("COM3", 115200, timeout=1)
-                self.logger.info("Puerto COM3 abierto correctamente.")
+                self.serial_port = serial.Serial("COM5", 115200, timeout=1)
+                self.logger.info("Puerto COM5 abierto correctamente.")
                 inicializacion = []
                 
                 for _ in range(2):
@@ -170,6 +170,7 @@ class Servidor:
             return "Motores desactivados correctamente."
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al desactivar los motores")
+
 
     def enviarGCode(self, usuario, gcode):
         try:
