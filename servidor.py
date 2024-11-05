@@ -5,7 +5,7 @@ from xmlrpc.server import SimpleXMLRPCServer
 import time
 from Logger import Logger  # Importa la clase Logger
 from ErrorManager import ErrorManager  # Importa la clase ErrorManager
-
+import re
 
 
 # Clase principal del servidor
@@ -201,6 +201,7 @@ class Servidor:
                     descripcion = "Movimiento lineal"
                 else:
                     descripcion = self.gcode_dict[comando_base]
+
                 self.serial_port.write(f"{gcode}\r\n".encode())
                 self.logger.info(f"Código G-code {gcode} enviado al puerto COM3.")
                 
@@ -216,6 +217,8 @@ class Servidor:
             return self.error_manager.handle_error(e)
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al enviar el código G-code")
+
+
 
         
     def leer_respuesta_arduino_completa(self):
