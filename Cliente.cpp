@@ -278,13 +278,12 @@ int main(int argc, char* argv[]) {
                         std::cin >> y;
                         std::cout << "Ingrese el valor de Z: ";
                         std::cin >> z;
-                        std::cout << "Ingrese la velocidad (F): ";
+                        std::cout << "Ingrese la velocidad (E): ";
                         std::cin >> velocidad;
 
                         // Formatear la cadena G-Code con dos decimales
                         std::ostringstream gcodeFormatted;
-                        gcodeFormatted << std::fixed << std::setprecision(2);
-                        gcodeFormatted << "G1 X" << x << " Y" << y << " Z" << z << " F" << velocidad;
+                        gcodeFormatted << "G1 X" << x << " Y" << y << " Z" << z << " E" << velocidad;
 
                         // Enviar el comando formateado al servidor
                         cliente.enviarGCode(usuario, gcodeFormatted.str());
