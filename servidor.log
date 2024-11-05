@@ -5591,3 +5591,20 @@
 2024-11-05 16:25:27,938 - Usuario eze ha enviado el código G-code: G1 X480 Y245 Z14 E5
 2024-11-05 16:25:27,938 - Código G-code G1 X480 Y245 Z14 E5 enviado al puerto COM3.
 2024-11-05 16:25:29,939 - Línea recibida del Arduino: ERROR: POINT IS OUTSIDE OF WORKSPACE
+2024-11-05 18:19:54,695 - Usuarios cargados correctamente.
+2024-11-05 18:19:54,696 - Códigos G-code cargados correctamente.
+2024-11-05 18:20:06,387 - Usuario eze autenticado correctamente.
+2024-11-05 18:20:11,283 - Error al abrir el puerto serial: could not open port 'COM3': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-05 18:20:38,809 - Usuarios cargados correctamente.
+2024-11-05 18:20:38,809 - Códigos G-code cargados correctamente.
+2024-11-05 18:20:46,784 - Usuario eze autenticado correctamente.
+2024-11-05 18:20:48,806 - Puerto COM3 abierto correctamente.
+2024-11-05 18:20:50,359 - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-05 18:20:50,362 - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-05 18:20:55,558 - Comando M17 enviado: Motores activados.
+2024-11-05 18:21:01,052 - Usuario eze ha enviado el código G-code: G28
+2024-11-05 18:21:01,053 - Código G-code G28 enviado al puerto COM3.
+2024-11-05 18:21:03,054 - Línea recibida del Arduino: INFO: HOMING
+2024-11-05 18:21:03,054 - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-05 18:21:17,602 - Usuario eze ha enviado el código G-code: G1 X100 Y120 Z95 E5
+2024-11-05 18:21:17,603 - Código G-code no reconocido.
