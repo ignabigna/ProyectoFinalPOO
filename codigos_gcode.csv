@@ -2,7 +2,7 @@ Código,Descripción
 M3,Activar gripper.
 M5,Desactivar gripper.
 G28,Hacer homing.
-G1 Xa Yb Zc Fv,"Mover el brazo a la posición (a,b,c)[mm] a una velocidad v [mm/s]. Modo de coordenadas absolutas por defecto. Devuelve las coordenadas absolutas luego de realizado el movimiento, independientemente de que se haya realizado un movimiento relativo."
+G1 Xa Yb Zc Fv,"Mover el brazo a la posicion (a,b,c)[mm] a una velocidad v [mm/s]. Modo de coordenadas absolutas por defecto. Devuelve las coordenadas absolutas luego de realizado el movimiento."
 M114,Reporte de modo de coordenadas y posición actual del robot.
 G90,Modo de coordenadas absolutas.
 G91,Modo de coordenadas relativas.

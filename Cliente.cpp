@@ -1,14 +1,19 @@
 #include <iostream>
 #include <string>
-#include <sstream>  // Para std::ostringstream
-#include <iomanip>  // Para std::setprecision
+#include <sstream>
+#include <iomanip>
+#include <filesystem>
+#include <fstream>
+#include <thread>
+#include <chrono>
 #include "libreria/XmlRpc.h"
 
+namespace fs = std::filesystem;
 
 class ClienteXMLRPC {
 public:
     ClienteXMLRPC(const std::string& serverHost, int serverPort)
-        : client(serverHost.c_str(), serverPort) 
+        : client(serverHost.c_str(), serverPort), robotConectado(false)
     {
         std::cout << "Cliente conectado a " << serverHost << " en el puerto " << serverPort << std::endl;
     }
@@ -26,10 +31,9 @@ public:
             return false;
         }
     }
-    // Método para solicitar la conexión al robot
+
     void conectarRobot() {
         XmlRpc::XmlRpcValue args, result;
-
         try {
             std::cout << "Solicitando conexión al robot..." << std::endl;
             client.execute("conectar_robot", args, result);
@@ -46,13 +50,12 @@ public:
 
     void desconectarRobot() {
         XmlRpc::XmlRpcValue args, result;
-
         try {
             std::cout << "Solicitando desconexión del robot..." << std::endl;
             client.execute("desconectar_robot", args, result);
             std::string respuesta = static_cast<std::string>(result);
             std::cout << "Respuesta del servidor: " << respuesta << std::endl;
-            robotConectado = false;  // Actualizar estado
+            robotConectado = false;
         } catch (XmlRpc::XmlRpcException& e) {
             std::cerr << "Error al desconectar el robot: " << e.getMessage() << std::endl;
         }
@@ -80,9 +83,6 @@ public:
         }
     }
 
-
-
-    // Registro de usuario en el servidor
     void registrarUsuario(const std::string& usuario, const std::string& contraseña) {
         XmlRpc::XmlRpcValue args, result;
         args[0] = usuario;
@@ -96,25 +96,22 @@ public:
         }
     }
 
-    // Solicitar saludo del servidor
-        void solicitarSaludo(const std::string& nombre) {
-            XmlRpc::XmlRpcValue args, result;
-            args[0] = nombre;
+    void solicitarSaludo(const std::string& nombre) {
+        XmlRpc::XmlRpcValue args, result;
+        args[0] = nombre;
 
-            try {
-                std::cout << "Enviando solicitud de saludo al servidor..." << std::endl;
-                client.execute("saludar", args, result);
-                std::string saludo = static_cast<std::string>(result);
-                std::cout << "Respuesta del servidor: " << saludo << std::endl;
-
-            } catch (XmlRpc::XmlRpcException& e) {
-                std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
-            }
+        try {
+            std::cout << "Enviando solicitud de saludo al servidor..." << std::endl;
+            client.execute("saludar", args, result);
+            std::string saludo = static_cast<std::string>(result);
+            std::cout << "Respuesta del servidor: " << saludo << std::endl;
+        } catch (XmlRpc::XmlRpcException& e) {
+            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
         }
+    }
 
-    // Solicitar listado de GCodes al servidor
     void obtenerListadoGCodes() {
-        XmlRpc::XmlRpcValue params;  // Parámetro vacío
+        XmlRpc::XmlRpcValue params;
         XmlRpc::XmlRpcValue result;
 
         try {
@@ -125,13 +122,11 @@ public:
             for (int i = 0; i < result.size(); ++i) {
                 std::cout << result[i] << std::endl;
             }
-
         } catch (XmlRpc::XmlRpcException& e) {
             std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
         }
     }
 
-    // Enviar GCode al servidor
     void enviarGCode(const std::string& usuario, const std::string& gcode) {
         if (!robotConectado) {
             std::cerr << "Error: Debe conectar al robot antes de enviar un G-Code." << std::endl;
@@ -147,16 +142,37 @@ public:
             client.execute("enviarGCode", args, result);
             std::string respuesta = static_cast<std::string>(result);
             std::cout << "Respuesta del servidor: " << respuesta << std::endl;
-
         } catch (XmlRpc::XmlRpcException& e) {
             std::cerr << "Error al enviar el comando GCode: " << e.getMessage() << std::endl;
         }
     }
 
+    void modoAutomatico() {
+        std::string carpeta = "M_Automatico";
+        for (const auto& archivo : fs::directory_iterator(carpeta)) {
+            if (archivo.path().extension() == ".csv") {
+                std::cout << "Leyendo archivo: " << archivo.path().filename() << std::endl;
+                
+                std::ifstream archivoCSV(archivo.path());
+                std::string linea;
+                while (std::getline(archivoCSV, linea)) {
+                    if (!robotConectado) {
+                        std::cerr << "Error: Debe conectar al robot antes de iniciar el modo automático." << std::endl;
+                        return;
+                    }
+
+                    std::cout << "Enviando comando GCode: " << linea << std::endl;
+                    enviarGCode("En automatico", linea);
+
+                    std::this_thread::sleep_for(std::chrono::seconds(5));
+                }
+            }
+        }
+    }
 
 private:
     XmlRpc::XmlRpcClient client;
-    bool robotConectado;  // Indica si el robot está conectado o no
+    bool robotConectado;
 };
 
 void mostrarMenuInicio() {
@@ -173,9 +189,10 @@ void mostrarMenuAutenticado() {
     std::cout << "3. Ingresar comando GCode" << std::endl;
     std::cout << "4. Conectar al robot" << std::endl;
     std::cout << "5. Desconectar el robot" << std::endl;
-    std::cout << "6. Activar motores" << std::endl;  // Nueva opción para activar motores
-    std::cout << "7. Desactivar motores" << std::endl;  // Nueva opción para desactivar motores
-    std::cout << "8. Salir" << std::endl;
+    std::cout << "6. Activar motores" << std::endl;
+    std::cout << "7. Desactivar motores" << std::endl;
+    std::cout << "8. Iniciar modo automático" << std::endl;
+    std::cout << "9. Salir" << std::endl;
     std::cout << "Seleccione una opción: ";
 }
 
@@ -238,7 +255,7 @@ int main(int argc, char* argv[]) {
                 }
             }
         } else {
-            if (!esOpcionValida(opcion, 8)) continue;
+            if (!esOpcionValida(opcion, 9)) continue;
 
             switch (opcion) {
                 case 1:
@@ -290,6 +307,10 @@ int main(int argc, char* argv[]) {
                     cliente.desactivarMotores();
                     break;
                 case 8:
+                    std::cout << "Iniciando modo automático..." << std::endl;
+                    cliente.modoAutomatico();
+                    break;
+                case 9:
                     std::cout << "Saliendo del programa..." << std::endl;
                     return 0;
                 default:

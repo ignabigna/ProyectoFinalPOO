@@ -115,8 +115,8 @@ class Servidor:
     def conectar_robot(self):
         if self.serial_port is None:
             try:
-                self.serial_port = serial.Serial("COM3", 115200, timeout=1)
-                self.logger.info("Puerto COM3 abierto correctamente.")
+                self.serial_port = serial.Serial("COM5", 115200, timeout=1)
+                self.logger.info("Puerto COM5 abierto correctamente.")
                 inicializacion = []
                 
                 for _ in range(2):
@@ -187,7 +187,10 @@ class Servidor:
                 return mensaje
 
             self.logger.info(f"Usuario {usuario} ha enviado el código G-code: {gcode}")
-
+            
+            # Mensaje de depuración para verificar que el comando se enviará
+            print(f"Enviando comando al puerto serial: {gcode}")
+            
             if gcode in self.gcode_dict:
                 if gcode == "G28":
                     self.homing_realizado = True
@@ -208,7 +211,6 @@ class Servidor:
             return self.error_manager.handle_error(e)
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al enviar el código G-code")
-
         
     def leer_respuesta_arduino_completa(self):
         """
