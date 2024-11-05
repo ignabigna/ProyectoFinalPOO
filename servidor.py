@@ -115,7 +115,7 @@ class Servidor:
     def conectar_robot(self):
         if self.serial_port is None:
             try:
-                self.serial_port = serial.Serial("COM5", 115200, timeout=1)
+                self.serial_port = serial.Serial("COM3", 115200, timeout=1)
                 self.logger.info("Puerto COM5 abierto correctamente.")
                 inicializacion = []
                 
