@@ -118,7 +118,7 @@ class Servidor:
         if self.serial_port is None:
             try:
                 self.serial_port = serial.Serial("COM3", 115200, timeout=1)
-                self.logger.info("Puerto COM5 abierto correctamente.")
+                self.logger.info("Puerto COM3 abierto correctamente.")
                 inicializacion = []
                 
                 for _ in range(2):
