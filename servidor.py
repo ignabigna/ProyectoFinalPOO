@@ -220,9 +220,36 @@ class Servidor:
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al enviar el código G-code")
 
+    def modo_automatico(self):
+        carpeta = "M_Automatico"
+        if not os.path.exists(carpeta):
+            self.logger.warning(f"La carpeta {carpeta} no existe.")
+            return "Error: La carpeta de archivos automáticos no existe."
 
+        for archivo in os.listdir(carpeta):
+            if archivo.endswith(".csv"):
+                self.logger.info(f"Leyendo archivo: {archivo}")
+                with open(os.path.join(carpeta, archivo), 'r') as archivo_csv:
+                    for linea in archivo_csv:
+                        linea = linea.strip()
+                        if not linea:
+                            continue
 
-        
+                        # Verificar si el robot está conectado
+                        if not self.serial_port:
+                            self.logger.warning("Error: El robot no está conectado.")
+                            return "Error: Debe conectar al robot antes de iniciar el modo automático."
+
+                        self.logger.info(f"Enviando comando GCode: {linea}")
+                        respuesta = self.enviarGCode("En automatico", linea)
+                        self.logger.info(f"Respuesta del servidor: {respuesta}")
+                        print("Respuesta del servidor:", respuesta)
+
+                        # Pausa de 5 segundos entre comandos
+                        time.sleep(5)
+
+        return "Modo automático completado."
+    
     def leer_respuesta_arduino_completa(self):
         """
         Lee todas las líneas disponibles del Arduino en el puerto serial hasta que no haya más respuestas.
@@ -273,23 +300,6 @@ class Servidor:
             self.logger.warning("El servidor RPC ya está inactivo.")
             return "El servidor RPC ya está inactivo."
 
-    def mostrar_logs(self, num_lineas=100):
-        log_path = 'LogsServer'
-        logs = []
-        try:
-            archivos_log = sorted(
-                [os.path.join(log_path, f) for f in os.listdir(log_path) if f.endswith('.log')],
-                key=os.path.getmtime,
-                reverse=True
-            )
-            if archivos_log:
-                with open(archivos_log[0], 'r') as log_file:
-                    logs = log_file.readlines()[-num_lineas:]
-                return logs
-            else:
-                return ["No hay archivos de logs disponibles."]
-        except Exception as e:
-            return [f"Error al mostrar los logs: {str(e)}"]
 
     def mostrar_estado(self):
         estado = {
@@ -310,6 +320,76 @@ class Servidor:
         else:
             self.logger.warning(f"Comando {comando} no reconocido al solicitar ayuda.")
             return "Comando no reconocido. Verifique el comando ingresado."
+        
+    def mostrar_editar_parametros_conexion(self):
+        """
+        Muestra los parámetros actuales de conexión y permite editarlos si el usuario lo desea.
+        """
+        archivo_config = "configuracion_conexion.json"
+        
+        # Cargar o inicializar configuración
+        if not os.path.exists(archivo_config):
+            parametros = {
+                "puerto": "COM3",
+                "baudrate": 115200,
+                "timeout": 1
+            }
+            with open(archivo_config, 'w') as f:
+                json.dump(parametros, f, indent=4)
+        else:
+            with open(archivo_config, 'r') as f:
+                parametros = json.load(f)
+        
+        # Mostrar parámetros actuales
+        print("Parámetros de conexión actuales:")
+        print(f"Puerto: {parametros['puerto']}")
+        print(f"Baudrate: {parametros['baudrate']}")
+        print(f"Timeout: {parametros['timeout']}")
+
+        # Preguntar si desea editar
+        editar = input("¿Desea editar los parámetros? (s/n): ").strip().lower()
+        if editar == 's':
+            # Solicitar nuevos parámetros
+            nuevo_puerto = input(f"Nuevo Puerto (actual: {parametros['puerto']}): ") or parametros['puerto']
+            nuevo_baudrate = input(f"Nuevo Baudrate (actual: {parametros['baudrate']}): ")
+            nuevo_timeout = input(f"Nuevo Timeout (actual: {parametros['timeout']}): ")
+
+            # Validar e incorporar nuevos parámetros
+            try:
+                parametros['baudrate'] = int(nuevo_baudrate) if nuevo_baudrate else parametros['baudrate']
+                parametros['timeout'] = int(nuevo_timeout) if nuevo_timeout else parametros['timeout']
+            except ValueError:
+                print("Error: Baudrate y Timeout deben ser valores numéricos. Manteniendo valores anteriores.")
+
+            parametros['puerto'] = nuevo_puerto
+
+            # Guardar los parámetros actualizados
+            with open(archivo_config, 'w') as f:
+                json.dump(parametros, f, indent=4)
+            self.logger.info("Parámetros de conexión actualizados.")
+            print("Parámetros de conexión actualizados.")
+        else:
+            print("No se realizaron cambios en los parámetros de conexión.")
+    
+    def mostrar_logs(self, num_lineas=100):
+        log_path = 'LogsServer'
+        logs = []
+        try:
+            # Buscar el archivo de log más reciente
+            archivos_log = sorted(
+                [os.path.join(log_path, f) for f in os.listdir(log_path) if f.endswith('.log')],
+                key=os.path.getmtime,
+                reverse=True
+            )
+            if archivos_log:
+                # Leer las últimas `num_lineas` del archivo de log más reciente
+                with open(archivos_log[0], 'r') as log_file:
+                    logs = log_file.readlines()[-num_lineas:]
+                return logs
+            else:
+                return ["No hay archivos de logs disponibles."]
+        except Exception as e:
+            return [f"Error al mostrar los logs: {str(e)}"]
         
 # Configuración del servidor
 def iniciar_servidor():

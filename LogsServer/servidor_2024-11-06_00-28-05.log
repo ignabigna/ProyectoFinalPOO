@@ -1,0 +1,14 @@
+2024-11-06 00:28:05,870 - INFO - Usuarios cargados correctamente.
+2024-11-06 00:28:05,871 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 00:28:09,846 - WARNING - Autenticación fallida para el usuario admin.
+2024-11-06 00:28:09,847 - INFO - Acceso concedido al administrador admin
+2024-11-06 00:28:30,219 - INFO - Puerto COM5 abierto correctamente.
+2024-11-06 00:28:31,881 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 00:28:31,882 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 00:28:34,897 - INFO - El robot se ha desconectado correctamente.
+2024-11-06 00:28:40,890 - ERROR - Error al activar los motores: El robot no está conectado.
+2024-11-06 00:28:43,078 - INFO - Puerto COM5 abierto correctamente.
+2024-11-06 00:28:44,740 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 00:28:44,743 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 00:28:45,724 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 00:28:54,021 - INFO - Comando M18 enviado: Motores desactivados.

@@ -1,0 +1,4 @@
+2024-11-06 01:08:37,921 - INFO - Usuarios cargados correctamente.
+2024-11-06 01:08:37,921 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 01:08:41,881 - INFO - Usuario admin autenticado correctamente.
+2024-11-06 01:09:01,942 - ERROR - El robot no está conectado. Conéctese primero antes de enviar comandos G-Code.

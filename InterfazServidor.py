@@ -11,34 +11,28 @@ class InterfazServidor:
         usuario = input("Ingrese el usuario: ")
         contraseña = input("Ingrese la contraseña: ")
         if self.servidor.autenticar_usuario(usuario, contraseña):
-            if usuario == "admin":  # Verifica que el usuario tenga privilegios de administrador
+            if usuario == "admin" and contraseña == "admin123":  # Verifica que el usuario tenga privilegios de administrador
                 self.usuario_actual = usuario
-                self.logger.info(f"Acceso concedido al administrador {usuario}")
-                print("Autenticación exitosa como administrador.")
                 return True
             else:
-                print("Acceso denegado. Solo el administrador puede ingresar.")
-                self.logger.warning(f"Intento fallido de acceso como administrador por {usuario}")
                 return False
         else:
-            print("Usuario o contraseña incorrectos.")
             return False
 
     def mostrar_menu(self):
-        print("\n--- Menú de Control del Servidor ---")
-        print("1. Conectar al robot")
-        print("2. Desconectar el robot")
-        print("3. Activar motores")
-        print("4. Desactivar motores")
-        print("5. Listar comandos disponibles")
-        print("6. Mostrar ayuda de comandos")
-        print("7. Reporte general de la conexión y estado")
-        print("8. Reporte del log de trabajo")
-        print("9. Selección de modo de trabajo (manual/automático, absoluto/relativo)")
-        print("10. [Administrador] Mostrar/editar parámetros de conexión")
-        print("11. [Administrador] Encender/apagar servidor RPC")
+        print("\n--- ***Opciones disponibles*** ---")
+        print("1. Solicitar listado de GCodes")
+        print("2. Ingresar comando GCode")
+        print("3. Conectar al robot")
+        print("4. Desconectar el robot")
+        print("5. Activar motores")
+        print("6. Desactivar motores")
+        print("7. Iniciar modo automático")
+        print("8. [Administrador] Mostrar parámetros de conexión")
+        print("9. [Administrador] Editar parámetros de conexión")
+        print("10. [Administrador] Encender servidor RPC")
+        print("11. [Administrador] Apagar servidor RPC")
         print("12. [Administrador] Mostrar últimas 100 líneas del log")
-        print("13. Salir")
         opcion = input("Seleccione una opción: ")
         return opcion
 
@@ -46,64 +40,71 @@ class InterfazServidor:
         while True:
             opcion = self.mostrar_menu()
             if opcion == "1":
-                print("Se ha seleccionado opción 1")
-                self.conectar_robot()
+                print("Solicitando listado de GCodes...")
+                listado = self.servidor.obtenerListadoGCodes()
+                for item in listado:
+                    print(item)
             elif opcion == "2":
-                self.desconectar_robot()
+                gcode = input("Ingrese un comando GCode: ")
+                if gcode == "G1":
+                    try:
+                        # Solicitar valores específicos para el comando G1
+                        x = float(input("Ingrese el valor de X: "))
+                        y = float(input("Ingrese el valor de Y: "))
+                        z = float(input("Ingrese el valor de Z: "))
+                        velocidad = float(input("Ingrese la velocidad (E): "))
+
+                        # Formatear la cadena G-Code con dos decimales
+                        gcode_formateado = f"G1 X{x:.2f} Y{y:.2f} Z{z:.2f} E{velocidad:.2f}"
+
+                        # Enviar el comando formateado al servidor
+                        print("Enviando comando GCode al servidor...")
+                        respuesta = self.servidor.enviarGCode(self.usuario_actual, gcode_formateado)
+                    except ValueError:
+                        print("Error: Por favor, ingrese valores numéricos válidos.")
+                else:
+                    # Enviar otros comandos directamente al servidor
+                    respuesta = self.servidor.enviarGCode(self.usuario_actual, gcode)
+                    print("Respuesta del servidor:", respuesta)
+                self.servidor.enviarGCode(self.usuario_actual, gcode)
             elif opcion == "3":
-                self.activar_motores()
+                print("Conectando al robot...")
+                self.servidor.conectar_robot()
             elif opcion == "4":
-                self.desactivar_motores()
+                print("Desconectando el robot...")
+                self.servidor.desconectar_robot()
             elif opcion == "5":
-                self.listar_comandos_disponibles()
+                print("Activando motores...")
+                self.servidor.activar_motores()
             elif opcion == "6":
-                self.mostrar_ayuda_comandos()
+                print("Desactivando motores...")
+                self.servidor.desactivar_motores()
             elif opcion == "7":
-                self.reporte_general()
+                print("Iniciando modo automático...")
+                respuesta = self.servidor.modo_automatico()
             elif opcion == "8":
-                self.reporte_log_trabajo()
+                print("Mostrando estado de conexión actual...")
+                estado = self.servidor.mostrar_estado()
+                print(estado)
             elif opcion == "9":
-                self.seleccionar_modo_trabajo()
+                print("Mostrando/actualizando parámetros de conexión...")
+                self.servidor.mostrar_editar_parametros_conexion()
             elif opcion == "10":
-                self.mostrar_editar_parametros()
+                print("Encendiendo servidor RPC...")
+                respuesta = self.servidor.iniciar_rpc()
             elif opcion == "11":
-                self.encender_apagar_rpc()
+                print("Apagando servidor RPC...")
+                respuesta = self.servidor.apagar_rpc()
             elif opcion == "12":
-                self.mostrar_ultimas_lineas_log()
-            elif opcion == "13":
-                print("Saliendo del programa...")
-                break
+                print("Mostrando últimas 100 líneas del log...")
+                logs = self.servidor.mostrar_logs()  # Llama al método en `servidor.py`
+                for linea in logs:
+                    print(linea.strip())
             else:
                 print("Opción no válida. Intente nuevamente.")
 
     # Métodos de ejemplo para algunas opciones
-    def conectar_robot(self):
-        try:
-            print("Iniciando conexión al robot...")  # Mensaje de depuración
-            respuesta = self.servidor.conectar_robot()
-            print("Conexión finalizada.")  # Mensaje de depuración
-            print("\n".join(respuesta))
-        except Exception as e:
-            print(f"Error al conectar al robot: {e}")
-            self.logger.error(f"Error al conectar al robot: {e}")
-
-
-    def desconectar_robot(self):
-        print("Desconectando el robot...")
-        respuesta = self.servidor.desconectar_robot()
-        print(respuesta)
-
-    def activar_motores(self):
-        print("Activando motores...")
-        respuesta = self.servidor.activar_motores()
-        print(respuesta)
-
-    def desactivar_motores(self):
-        print("Desactivando motores...")
-        respuesta = self.servidor.desactivar_motores()
-        print(respuesta)
-
-    # Métodos adicionales se implementarán más adelante...
+    
 
 # Para probar la clase
 if __name__ == "__main__":
