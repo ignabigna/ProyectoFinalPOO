@@ -1,0 +1,4 @@
+2024-11-05 20:38:14,299 - INFO - Usuarios cargados correctamente.
+2024-11-05 20:38:14,300 - INFO - Códigos G-code cargados correctamente.
+2024-11-05 20:38:20,464 - INFO - Usuario Nico autenticado correctamente.
+2024-11-05 20:38:22,537 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)

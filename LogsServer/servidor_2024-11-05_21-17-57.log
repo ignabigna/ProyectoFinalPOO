@@ -1,0 +1,7 @@
+2024-11-05 21:17:57,281 - INFO - Usuarios cargados correctamente.
+2024-11-05 21:17:57,281 - INFO - Códigos G-code cargados correctamente.
+2024-11-05 21:18:08,240 - INFO - Usuario Nico autenticado correctamente.
+2024-11-05 21:18:24,329 - INFO - Puerto COM5 abierto correctamente.
+2024-11-05 21:18:25,990 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-05 21:18:25,993 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-05 21:18:31,485 - INFO - Comando M17 enviado: Motores activados.
