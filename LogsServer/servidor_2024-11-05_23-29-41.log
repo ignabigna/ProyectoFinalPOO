@@ -1,0 +1,2 @@
+2024-11-05 23:29:41,885 - ERROR - Error al conectar al Arduino en modo local: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-05 23:29:52,036 - WARNING - El Arduino ya está desconectado.

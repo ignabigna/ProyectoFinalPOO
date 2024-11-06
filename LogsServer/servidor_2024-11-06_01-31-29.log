@@ -1,0 +1,4 @@
+2024-11-06 01:31:29,073 - INFO - Conectado a Arduino en el puerto COM5 con 115200 baudios.
+2024-11-06 01:31:43,189 - INFO - Desconectado del Arduino.
+2024-11-06 01:31:53,137 - ERROR - Error al conectar al Arduino en el puerto COM1: could not open port 'COM1': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 01:32:12,577 - WARNING - El Arduino ya está desconectado.

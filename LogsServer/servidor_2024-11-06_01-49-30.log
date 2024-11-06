@@ -1,0 +1,6 @@
+2024-11-06 01:49:30,125 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 01:49:30,126 - INFO - Usuarios cargados correctamente.
+2024-11-06 01:49:30,126 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 01:49:37,033 - INFO - Usuario Barto autenticado correctamente.
+2024-11-06 01:49:38,530 - INFO - Solicitud de saludo recibida de: Barto
+2024-11-06 01:50:15,531 - INFO - Puerto COM5 abierto correctamente.

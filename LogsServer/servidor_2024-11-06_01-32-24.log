@@ -1,0 +1,11 @@
+2024-11-06 01:32:24,284 - INFO - Conectado a Arduino en el puerto COM5 con 115200 baudios.
+2024-11-06 01:32:54,198 - INFO - Enviando comando: M17
+2024-11-06 01:33:26,665 - INFO - Enviando comando: G28
+2024-11-06 01:33:33,668 - INFO - Enviando comando: M17
+2024-11-06 01:33:40,671 - INFO - Enviando comando: M3
+2024-11-06 01:33:47,674 - INFO - Enviando comando: G90
+2024-11-06 01:33:54,677 - INFO - Enviando comando: G91
+2024-11-06 01:34:01,681 - INFO - Enviando comando: M114
+2024-11-06 01:34:08,684 - INFO - Enviando comando: M5
+2024-11-06 01:34:15,686 - INFO - Enviando comando: M18
+2024-11-06 01:35:04,644 - INFO - Desconectado del Arduino.

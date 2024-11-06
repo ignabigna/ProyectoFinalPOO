@@ -3,17 +3,31 @@ import csv
 import serial
 from xmlrpc.server import SimpleXMLRPCServer
 import time
+import json  # Importar el módulo JSON para leer el archivo de configuración
 from Logger import Logger  # Importa la clase Logger
 from ErrorManager import ErrorManager  # Importa la clase ErrorManager
+import re
+import threading  # Agregar esta línea para importar el módulo threading
 
-
+# Importar la clase Admin para la funcionalidad local
+from Admin import Admin
 
 # Clase principal del servidor
 class Servidor:
-    def __init__(self):
+    # (Código original de la clase Servidor aquí)
+
+    def __init__(self, config):
         # Inicializar el logger y el gestor de errores
         self.logger = Logger(__name__)
         self.error_manager = ErrorManager(self.logger)
+
+        # Cargar configuración de conexión desde el archivo JSON
+        self.serial_port = config["serial_port"]
+        self.baud_rate = config["baud_rate"]
+        
+        self.connection = None
+        self.conectar_robot()  # Conectar automáticamente al iniciar
+
 
         # Inicialización de atributos
         self.usuarios = self.cargar_usuarios("usuarios.csv")
@@ -37,7 +51,7 @@ class Servidor:
             partes = gcode.split()
             coordenadas = {}
             for parte in partes[1:]:
-                if parte[0] in 'XYZR':
+                if parte[0] in 'XYZRE':
                     valor = float(parte[1:])
                     if parte[0] in self.limites_espacio_trabajo:
                         limite_min, limite_max = self.limites_espacio_trabajo[parte[0]]
@@ -115,8 +129,8 @@ class Servidor:
     def conectar_robot(self):
         if self.serial_port is None:
             try:
-                self.serial_port = serial.Serial("COM3", 115200, timeout=1)
-                self.logger.info("Puerto COM3 abierto correctamente.")
+                self.serial_port = serial.Serial("COM5", 115200, timeout=1)
+                self.logger.info("Puerto COM5 abierto correctamente.")
                 inicializacion = []
                 
                 for _ in range(2):
@@ -144,6 +158,8 @@ class Servidor:
                 return self.error_manager.handle_error(e, "Error al desconectar el robot")
         else:
             return self.error_manager.handle_warning("El robot ya está desconectado.")
+
+    
         
     def activar_motores(self):
         try:
@@ -171,6 +187,7 @@ class Servidor:
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al desactivar los motores")
 
+
     def enviarGCode(self, usuario, gcode):
         try:
             if self.serial_port is None:
@@ -179,20 +196,28 @@ class Servidor:
             if not self.motores_activados:
                 raise RuntimeError("Los motores deben estar activados antes de enviar cualquier comando.")
             
+            # Verificar si se ha realizado el homing antes de otros comandos
             if gcode != "G28" and not self.homing_realizado:
                 raise RuntimeError("El homing (G28) debe realizarse como la primera acción después de activar los motores.")
             
+            # Validar el formato del G-code
             valido, mensaje = self.validar_comando_gcode(gcode)
             if not valido:
                 return mensaje
 
             self.logger.info(f"Usuario {usuario} ha enviado el código G-code: {gcode}")
 
-            if gcode in self.gcode_dict:
-                if gcode == "G28":
-                    self.homing_realizado = True
+            # Verificar si el comando G1 es válido sin importar los parámetros específicos
+            comando_base = gcode.split()[0]
+            if comando_base in self.gcode_dict:
+                if comando_base == "G28":
+                    self.homing_realizado = True  # Actualizar la variable al enviar el G28
+                    descripcion = "Homing completado"  # Descripción opcional
+                elif comando_base == "G1":
+                    descripcion = "Movimiento lineal"
+                else:
+                    descripcion = self.gcode_dict[comando_base]
 
-                descripcion = self.gcode_dict[gcode]
                 self.serial_port.write(f"{gcode}\r\n".encode())
                 self.logger.info(f"Código G-code {gcode} enviado al puerto COM3.")
                 
@@ -208,6 +233,8 @@ class Servidor:
             return self.error_manager.handle_error(e)
         except Exception as e:
             return self.error_manager.handle_error(e, "Error al enviar el código G-code")
+
+
 
         
     def leer_respuesta_arduino_completa(self):
@@ -243,16 +270,83 @@ class Servidor:
         return f"Hola, {nombre}! Bienvenido al servidor."
 
 # Configuración del servidor
-def iniciar_servidor():
-    servidor = Servidor()
-    server = SimpleXMLRPCServer(("localhost", 8080), allow_none=True)
+def iniciar_servidor(server):
     print("Servidor escuchando en el puerto 8080...")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\nServidor detenido.")
 
-    # Registrar métodos en el servidor
+
+def escuchar_apagado(server):
+    """Escucha una entrada para apagar el servidor RPC y regresar al menú principal."""
+    while True:
+        comando = input("Ingrese '1' para detener el servidor RPC y volver al menú: ")
+        if comando == "1":
+            print("Deteniendo el servidor RPC...")
+            server.shutdown()  # Detiene el servidor
+            break
+
+def cargar_configuracion():
+    """Carga la configuración desde config.json."""
+    try:
+        with open("config.json", "r") as file:
+            config = json.load(file)
+            print("Configuración cargada correctamente.")
+            return config
+    except FileNotFoundError:
+        print("Error: No se encontró el archivo de configuración 'config.json'.")
+        return None
+    except json.JSONDecodeError:
+        print("Error: El archivo de configuración contiene un formato JSON inválido.")
+        return None
+
+
+def iniciar_modo_remoto():
+    # Cargar configuración
+    config = cargar_configuracion()
+    if config is None:
+        print("No se pudo cargar la configuración. Saliendo del modo remoto.")
+        return
+    
+    # Crear el servidor con la configuración cargada
+    servidor = Servidor(config)
+    server = SimpleXMLRPCServer(("localhost", 8080), allow_none=True)
     server.register_instance(servidor)
 
-    # Correr el servidor
-    server.serve_forever()
+    # Crear hilo para el servidor RPC
+    hilo_servidor = threading.Thread(target=iniciar_servidor, args=(server,))
+    hilo_servidor.start()
+
+    # Crear hilo para escuchar la señal de apagado
+    hilo_apagado = threading.Thread(target=escuchar_apagado, args=(server,))
+    hilo_apagado.start()
+
+    # Esperar a que ambos hilos terminen
+    hilo_servidor.join()
+    hilo_apagado.join()
+
+# Función para mostrar el menú de opciones
+# Función para mostrar el menú de opciones
+def mostrar_menu():
+    while True:
+        print("\nSeleccione el modo de operación:")
+        print("1. Trabajar en remoto")
+        print("2. Trabajar como local (Admin)")
+        print("3. Salir")
+
+        opcion = input("Ingrese su opción (1, 2 o 3): ")
+        
+        if opcion == "1":
+            iniciar_modo_remoto()
+        elif opcion == "2":
+            admin = Admin()  # Crear instancia de la clase Admin
+            admin.ejecutar_modo_local()  # Llamar al menú en modo local (Admin)
+        elif opcion == "3":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
 
 if __name__ == "__main__":
-    iniciar_servidor()
+    mostrar_menu()

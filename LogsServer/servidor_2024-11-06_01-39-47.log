@@ -1,0 +1,7 @@
+2024-11-06 01:39:47,355 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 01:39:47,356 - INFO - Usuarios cargados correctamente.
+2024-11-06 01:39:47,357 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 01:40:13,198 - INFO - Usuario Barto autenticado correctamente.
+2024-11-06 01:40:23,271 - ERROR - Error al activar los motores: El robot no está conectado.
+2024-11-06 01:40:39,099 - WARNING - El robot ya está desconectado.
+2024-11-06 01:40:41,220 - INFO - Puerto COM5 abierto correctamente.
