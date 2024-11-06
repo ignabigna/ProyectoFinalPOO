@@ -3,9 +3,10 @@ import csv
 import serial
 from xmlrpc.server import SimpleXMLRPCServer
 import time
+import os
+import json
 from Logger import Logger  # Importa la clase Logger
 from ErrorManager import ErrorManager  # Importa la clase ErrorManager
-import re
 
 
 # Clase principal del servidor
@@ -116,7 +117,7 @@ class Servidor:
         if self.serial_port is None:
             try:
                 self.serial_port = serial.Serial("COM3", 115200, timeout=1)
-                self.logger.info("Puerto COM3 abierto correctamente.")
+                self.logger.info("Puerto COM5 abierto correctamente.")
                 inicializacion = []
                 
                 for _ in range(2):
@@ -252,6 +253,62 @@ class Servidor:
     def saludar(self, nombre):
         self.logger.info(f"Solicitud de saludo recibida de: {nombre}")
         return f"Hola, {nombre}! Bienvenido al servidor."
+    
+    def iniciar_rpc(self):
+        if not self.conectado_rpc:
+            self.conectado_rpc = True
+            self.logger.info("Servidor RPC iniciado.")
+            return "Servidor RPC iniciado."
+        else:
+            self.logger.warning("El servidor RPC ya está activo.")
+            return "El servidor RPC ya está activo."
+
+    def apagar_rpc(self):
+        if self.conectado_rpc:
+            self.conectado_rpc = False
+            self.logger.info("Servidor RPC apagado.")
+            return "Servidor RPC apagado."
+        else:
+            self.logger.warning("El servidor RPC ya está inactivo.")
+            return "El servidor RPC ya está inactivo."
+
+    def mostrar_logs(self, num_lineas=100):
+        log_path = 'LogsServer'
+        logs = []
+        try:
+            archivos_log = sorted(
+                [os.path.join(log_path, f) for f in os.listdir(log_path) if f.endswith('.log')],
+                key=os.path.getmtime,
+                reverse=True
+            )
+            if archivos_log:
+                with open(archivos_log[0], 'r') as log_file:
+                    logs = log_file.readlines()[-num_lineas:]
+                return logs
+            else:
+                return ["No hay archivos de logs disponibles."]
+        except Exception as e:
+            return [f"Error al mostrar los logs: {str(e)}"]
+
+    def mostrar_estado(self):
+        estado = {
+            "Estado de conexión": "Conectado" if self.serial_port else "Desconectado",
+            "Motores activados": self.motores_activados,
+            "Homing realizado": self.homing_realizado,
+            "Servidor RPC": "Activo" if self.conectado_rpc else "Inactivo"
+        }
+        self.logger.info("Estado actual del servidor mostrado.")
+        return json.dumps(estado, indent=4)
+
+    def mostrar_ayuda_comando(self, comando):
+        if comando in self.gcode_dict:
+            ejemplo = f"Ejemplo de uso: {comando} X100 Y100 Z0 F50"
+            ayuda = f"{comando}: {self.gcode_dict[comando]}\n{ejemplo}"
+            self.logger.info(f"Se mostró la ayuda para el comando {comando}.")
+            return ayuda
+        else:
+            self.logger.warning(f"Comando {comando} no reconocido al solicitar ayuda.")
+            return "Comando no reconocido. Verifique el comando ingresado."
 
 # Configuración del servidor
 def iniciar_servidor():

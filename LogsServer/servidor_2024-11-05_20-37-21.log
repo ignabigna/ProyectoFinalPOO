@@ -1,0 +1,6 @@
+2024-11-05 20:37:21,728 - INFO - Usuarios cargados correctamente.
+2024-11-05 20:37:21,729 - INFO - Códigos G-code cargados correctamente.
+2024-11-05 20:37:42,827 - INFO - Usuario Nico autenticado correctamente.
+2024-11-05 20:37:49,158 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-05 20:37:50,366 - ERROR - Error al activar los motores: El robot no está conectado.
+2024-11-05 20:38:07,665 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
