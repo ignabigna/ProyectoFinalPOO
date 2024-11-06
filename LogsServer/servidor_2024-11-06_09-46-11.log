@@ -1,0 +1,1 @@
+2024-11-06 09:46:11,455 - ERROR - Error al conectar al Arduino en el puerto COM5: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
