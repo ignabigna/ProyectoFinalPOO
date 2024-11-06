@@ -1,0 +1,21 @@
+2024-11-06 01:14:50,196 - INFO - Usuarios cargados correctamente.
+2024-11-06 01:14:50,196 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 01:14:53,540 - INFO - Usuario admin autenticado correctamente.
+2024-11-06 01:15:06,862 - INFO - Puerto COM5 abierto correctamente.
+2024-11-06 01:15:08,518 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 01:15:08,518 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 01:15:13,114 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 01:15:25,013 - INFO - Usuario admin ha enviado el código G-code: G28
+2024-11-06 01:15:25,014 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-06 01:15:27,015 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-06 01:15:27,015 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-06 01:15:27,019 - INFO - Usuario admin ha enviado el código G-code: G28
+2024-11-06 01:15:27,019 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-06 01:15:29,021 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-06 01:15:29,021 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=4.50s
+2024-11-06 01:15:38,885 - INFO - Usuario admin ha enviado el código G-code: G1 X100.00 Y100.00 Z0.00 E20.00
+2024-11-06 01:15:38,885 - INFO - Código G-code G1 X100.00 Y100.00 Z0.00 E20.00 enviado al puerto COM3.
+2024-11-06 01:15:40,893 - INFO - Línea recibida del Arduino: INFO: LINEAR MOVE: [X:100.00 Y:100.00 Z:0.00 E:20.00] t=0.76s
+2024-11-06 01:15:40,893 - INFO - Usuario admin ha enviado el código G-code: G1
+2024-11-06 01:15:40,893 - INFO - Código G-code G1 enviado al puerto COM3.
+2024-11-06 01:15:42,900 - INFO - Línea recibida del Arduino: INFO: LINEAR MOVE: [X:100.00 Y:100.00 Z:0.00 E:20.00] t=0.00s

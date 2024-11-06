@@ -1,0 +1,9 @@
+2024-11-06 01:09:37,139 - INFO - Usuarios cargados correctamente.
+2024-11-06 01:09:37,139 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 01:09:40,667 - INFO - Usuario admin autenticado correctamente.
+2024-11-06 01:09:48,482 - ERROR - El robot no está conectado. Conéctese primero antes de enviar comandos G-Code.
+2024-11-06 01:10:12,097 - INFO - Puerto COM5 abierto correctamente.
+2024-11-06 01:10:13,750 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 01:10:13,764 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 01:10:30,746 - INFO - El robot se ha desconectado correctamente.
+2024-11-06 01:10:48,916 - ERROR - Error al activar los motores: El robot no está conectado.
