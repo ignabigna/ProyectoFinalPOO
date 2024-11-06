@@ -1,4 +1,3 @@
-# interfaz_servidor.py
 from servidor import Servidor
 from Logger import Logger
 
@@ -7,6 +6,23 @@ class InterfazServidor:
         self.servidor = Servidor()
         self.logger = Logger("InterfazServidor")
         self.usuario_actual = None
+
+    def autenticar_administrador(self):
+        usuario = input("Ingrese el usuario: ")
+        contraseña = input("Ingrese la contraseña: ")
+        if self.servidor.autenticar_usuario(usuario, contraseña):
+            if usuario == "admin":  # Verifica que el usuario tenga privilegios de administrador
+                self.usuario_actual = usuario
+                self.logger.info(f"Acceso concedido al administrador {usuario}")
+                print("Autenticación exitosa como administrador.")
+                return True
+            else:
+                print("Acceso denegado. Solo el administrador puede ingresar.")
+                self.logger.warning(f"Intento fallido de acceso como administrador por {usuario}")
+                return False
+        else:
+            print("Usuario o contraseña incorrectos.")
+            return False
 
     def mostrar_menu(self):
         print("\n--- Menú de Control del Servidor ---")
@@ -26,29 +42,11 @@ class InterfazServidor:
         opcion = input("Seleccione una opción: ")
         return opcion
 
-    def autenticar_administrador(self):
-        usuario = input("Ingrese el usuario: ")
-        contraseña = input("Ingrese la contraseña: ")
-        if self.servidor.autenticar_usuario(usuario, contraseña):
-            if usuario == "admin":  # Reemplazar "admin" con el usuario administrador específico
-                self.usuario_actual = usuario
-                self.logger.info(f"Acceso concedido al administrador {usuario}")
-                return True
-            else:
-                print("Acceso denegado. Solo el administrador puede ingresar.")
-                self.logger.warning(f"Intento fallido de acceso como administrador por {usuario}")
-                return False
-        else:
-            print("Usuario o contraseña incorrectos.")
-            return False
-
     def ejecutar(self):
-        if not self.autenticar_administrador():
-            return
-
         while True:
             opcion = self.mostrar_menu()
             if opcion == "1":
+                print("Se ha seleccionado opción 1")
                 self.conectar_robot()
             elif opcion == "2":
                 self.desconectar_robot()
@@ -80,9 +78,15 @@ class InterfazServidor:
 
     # Métodos de ejemplo para algunas opciones
     def conectar_robot(self):
-        print("Conectando al robot...")
-        respuesta = self.servidor.conectar_robot()
-        print("\n".join(respuesta))
+        try:
+            print("Iniciando conexión al robot...")  # Mensaje de depuración
+            respuesta = self.servidor.conectar_robot()
+            print("Conexión finalizada.")  # Mensaje de depuración
+            print("\n".join(respuesta))
+        except Exception as e:
+            print(f"Error al conectar al robot: {e}")
+            self.logger.error(f"Error al conectar al robot: {e}")
+
 
     def desconectar_robot(self):
         print("Desconectando el robot...")

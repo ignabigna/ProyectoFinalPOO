@@ -1,0 +1,8 @@
+2024-11-05 23:45:31,890 - INFO - Usuarios cargados correctamente.
+2024-11-05 23:45:31,890 - INFO - Códigos G-code cargados correctamente.
+2024-11-05 23:45:34,592 - INFO - Usuario admin autenticado correctamente.
+2024-11-05 23:45:34,593 - INFO - Acceso concedido al administrador admin
+2024-11-05 23:46:04,411 - INFO - Puerto COM5 abierto correctamente.
+2024-11-05 23:46:06,073 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-05 23:46:06,073 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-05 23:46:20,520 - INFO - Comando M17 enviado: Motores activados.
