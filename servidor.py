@@ -7,9 +7,13 @@ from Logger import Logger  # Importa la clase Logger
 from ErrorManager import ErrorManager  # Importa la clase ErrorManager
 import re
 
+# Importar la clase Admin para la funcionalidad local
+from Admin import Admin
 
 # Clase principal del servidor
 class Servidor:
+    # (Código original de la clase Servidor aquí)
+
     def __init__(self):
         # Inicializar el logger y el gestor de errores
         self.logger = Logger(__name__)
@@ -265,5 +269,26 @@ def iniciar_servidor():
     # Correr el servidor
     server.serve_forever()
 
+# Función para mostrar el menú de opciones
+def mostrar_menu():
+    while True:
+        print("\nSeleccione el modo de operación:")
+        print("1. Trabajar en remoto")
+        print("2. Trabajar como local (Admin)")
+        print("3. Salir")
+
+        opcion = input("Ingrese su opción (1, 2 o 3): ")
+        
+        if opcion == "1":
+            iniciar_servidor()
+        elif opcion == "2":
+            admin = Admin()  # Crear instancia de la clase Admin
+            admin.ejecutar_modo_local()  # Llamar al menú en modo local (Admin)
+        elif opcion == "3":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
 if __name__ == "__main__":
-    iniciar_servidor()
+    mostrar_menu()

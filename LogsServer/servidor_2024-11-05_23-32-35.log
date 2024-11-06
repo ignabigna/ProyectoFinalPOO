@@ -1,0 +1,27 @@
+2024-11-05 23:32:35,484 - ERROR - Error al conectar al Arduino en modo local: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-05 23:32:38,238 - WARNING - El Arduino ya está desconectado.
+2024-11-05 23:32:51,487 - INFO - Conectado a Arduino en el puerto COM5.
+2024-11-05 23:32:53,126 - INFO - Inicialización del Arduino: INFO: ROBOT ONLINE
+2024-11-05 23:32:57,228 - ERROR - Error al conectar al Arduino en modo local: could not open port 'COM5': PermissionError(13, 'Acceso denegado.', None, 5)
+2024-11-05 23:33:11,419 - INFO - Desconectado del Arduino.
+2024-11-05 23:33:14,602 - INFO - Conectado a Arduino en el puerto COM5.
+2024-11-05 23:33:16,250 - INFO - Inicialización del Arduino: INFO: ROBOT ONLINE
+2024-11-05 23:33:24,511 - INFO - Enviando comando: M17
+2024-11-05 23:33:26,523 - INFO - Respuesta del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-05 23:33:38,955 - INFO - Enviando comando: G28
+2024-11-05 23:33:40,966 - INFO - Respuesta del Arduino: INFO: HOMING
+2024-11-05 23:33:40,966 - INFO - Respuesta del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-05 23:33:45,968 - INFO - Enviando comando: M17
+2024-11-05 23:33:52,970 - INFO - Enviando comando: M3
+2024-11-05 23:33:54,972 - INFO - Respuesta del Arduino: INFO: GRIPPER ON
+2024-11-05 23:33:59,974 - INFO - Enviando comando: G90
+2024-11-05 23:34:01,975 - INFO - Respuesta del Arduino: INFO: ABSOLUTE MODE ON
+2024-11-05 23:34:06,977 - INFO - Enviando comando: G91
+2024-11-05 23:34:08,979 - INFO - Respuesta del Arduino: INFO: RELATIVE MODE ON
+2024-11-05 23:34:13,980 - INFO - Enviando comando: M114
+2024-11-05 23:34:15,981 - INFO - Respuesta del Arduino: INFO: RELATIVE MODE
+2024-11-05 23:34:15,981 - INFO - Respuesta del Arduino: INFO: óURRENT POSITION: [X:0.00 Y:170.00 Z:120.00 E:0.00]
+2024-11-05 23:34:20,984 - INFO - Enviando comando: M5
+2024-11-05 23:34:22,985 - INFO - Respuesta del Arduino: INFO: GRIPPER OFF
+2024-11-05 23:34:27,987 - INFO - Enviando comando: M18
+2024-11-05 23:35:01,082 - INFO - Desconectado del Arduino.
