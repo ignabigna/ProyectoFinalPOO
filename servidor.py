@@ -19,17 +19,18 @@ class Servidor:
         # Inicialización de atributos
         self.usuarios = self.cargar_usuarios("usuarios.csv")
         self.gcode_dict = self.cargar_gcode_descripciones("codigos_gcode.csv")
-        self.serial_port = None  # Inicialización sin conexión al puerto COM
-        self.motores_activados = False  # Estado de los motores
-        self.homing_realizado = False  # Indica si se ha realizado homing
+        self.serial_port = None
+        self.motores_activados = False
+        self.homing_realizado = False
+        self.conectado_rpc = False  # Nueva variable para manejar el estado RPC
 
-        # Límites de operación
+        # Límites de operación (se mantienen)
         self.limites_espacio_trabajo = {
-            'Z': (-88, 150),  # Valores de Z_MIN y Z_MAX según config.h
-            'R': (100, 240)   # Valores de R_MIN y R_MAX calculados según config.h
+            'Z': (-88, 150),
+            'R': (100, 240)
         }
-        self.velocidad_maxima = 100  # Velocidad máxima en mm/s
-    
+        self.velocidad_maxima = 100
+
     def validar_comando_gcode(self, gcode):
         """
         Valida si un comando G-Code es viable en función de los parámetros geométricos y cinemáticos del robot.
@@ -82,10 +83,10 @@ class Servidor:
     def autenticar_usuario(self, usuario, contraseña):
         if usuario in self.usuarios and self.usuarios[usuario] == contraseña:
             self.logger.info(f"Usuario {usuario} autenticado correctamente.")
-            return True
+            return True, usuario == "admin"  # Devuelve si es usuario y si es admin
         else:
             self.error_manager.handle_warning(f"Autenticación fallida para el usuario {usuario}.")
-            return False
+            return False, False
 
     # Cargar los códigos G-code y sus descripciones desde el archivo CSV
     def cargar_gcode_descripciones(self, archivo_csv):
@@ -309,7 +310,7 @@ class Servidor:
         else:
             self.logger.warning(f"Comando {comando} no reconocido al solicitar ayuda.")
             return "Comando no reconocido. Verifique el comando ingresado."
-
+        
 # Configuración del servidor
 def iniciar_servidor():
     servidor = Servidor()
