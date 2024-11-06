@@ -1,0 +1,8 @@
+2024-11-06 10:02:32,666 - ERROR - Error al conectar al Arduino en el puerto COM5: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 10:02:34,547 - ERROR - Error al conectar al Arduino en el puerto COM5: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 10:02:37,006 - WARNING - El Arduino ya está desconectado.
+2024-11-06 10:02:39,223 - ERROR - Error al conectar al Arduino en el puerto COM5: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 10:02:41,388 - ERROR - Error al conectar al Arduino en el puerto COM5: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 10:03:01,145 - ERROR - Error al conectar al Arduino en el puerto COM5: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 10:03:17,790 - WARNING - El Arduino ya está desconectado.
+2024-11-06 10:03:27,885 - WARNING - El Arduino ya está desconectado.

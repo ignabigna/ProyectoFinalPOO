@@ -1,0 +1,19 @@
+2024-11-06 10:05:59,758 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 10:05:59,758 - INFO - Usuarios cargados correctamente.
+2024-11-06 10:05:59,770 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 10:06:18,493 - INFO - Usuario Barto autenticado correctamente.
+2024-11-06 10:06:19,256 - INFO - Solicitud de saludo recibida de: Barto
+2024-11-06 10:06:35,685 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 10:06:58,055 - INFO - Solicitud de saludo recibida de: Barto
+2024-11-06 10:07:00,637 - WARNING - El robot ya está desconectado.
+2024-11-06 10:07:04,431 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 10:07:09,435 - ERROR - Error al activar los motores: El robot no está conectado.
+2024-11-06 10:08:47,515 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 10:08:47,515 - INFO - Usuarios cargados correctamente.
+2024-11-06 10:08:47,531 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 10:08:58,666 - INFO - Usuario Barto autenticado correctamente.
+2024-11-06 10:08:59,985 - INFO - Solicitud de saludo recibida de: Barto
+2024-11-06 10:09:03,824 - INFO - Puerto COM5 abierto correctamente.
+2024-11-06 10:09:05,464 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 10:09:05,464 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 10:09:14,164 - INFO - Comando M17 enviado: Motores activados.

@@ -1,0 +1,9 @@
+2024-11-06 09:59:05,232 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 09:59:05,233 - INFO - Usuarios cargados correctamente.
+2024-11-06 09:59:05,248 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 09:59:23,328 - INFO - Usuario Barto autenticado correctamente.
+2024-11-06 09:59:37,382 - INFO - Solicitud de saludo recibida de: Barto
+2024-11-06 09:59:44,026 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 09:59:49,105 - WARNING - El robot ya está desconectado.
+2024-11-06 09:59:51,394 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)
+2024-11-06 09:59:54,145 - ERROR - Error al abrir el puerto serial: could not open port 'COM5': FileNotFoundError(2, 'El sistema no puede encontrar el archivo especificado.', None, 2)

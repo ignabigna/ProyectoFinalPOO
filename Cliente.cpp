@@ -33,54 +33,72 @@ public:
     }
 
     void conectarRobot() {
-        XmlRpc::XmlRpcValue args, result;
-        try {
-            std::cout << "Solicitando conexión al robot..." << std::endl;
-            client.execute("conectar_robot", args, result);
+    XmlRpc::XmlRpcValue args, result;
+    try {
+        std::cout << "Solicitando conexión al robot..." << std::endl;
+        client.execute("conectar_robot", args, result);
 
-            for (int i = 0; i < result.size(); ++i) {
-                std::cout << "Mensaje de inicialización: " << result[i] << std::endl;
-            }
-            robotConectado = true;
-        } catch (XmlRpc::XmlRpcException& e) {
-            std::cerr << "Error al conectar con el robot: " << e.getMessage() << std::endl;
-            robotConectado = false;
+        if (result.getType() == XmlRpc::XmlRpcValue::TypeString) {
+            std::cout << "Respuesta del servidor: " << static_cast<std::string>(result) << std::endl;
+            robotConectado = (result == "Robot conectado correctamente.");
         }
+    } catch (XmlRpc::XmlRpcException& e) {
+        std::cerr << "Error al conectar con el robot: " << e.getMessage() << std::endl;
+        robotConectado = false;
     }
+}
 
     void desconectarRobot() {
-        XmlRpc::XmlRpcValue args, result;
-        try {
-            std::cout << "Solicitando desconexión del robot..." << std::endl;
-            client.execute("desconectar_robot", args, result);
-            std::string respuesta = static_cast<std::string>(result);
-            std::cout << "Respuesta del servidor: " << respuesta << std::endl;
+    XmlRpc::XmlRpcValue args, result;
+    try {
+        std::cout << "Solicitando desconexión del robot..." << std::endl;
+        client.execute("desconectar_robot", args, result);
+        
+        if (result.getType() == XmlRpc::XmlRpcValue::TypeString) {
+            std::cout << "Respuesta del servidor: " << static_cast<std::string>(result) << std::endl;
             robotConectado = false;
-        } catch (XmlRpc::XmlRpcException& e) {
-            std::cerr << "Error al desconectar el robot: " << e.getMessage() << std::endl;
         }
+    } catch (XmlRpc::XmlRpcException& e) {
+        std::cerr << "Error al desconectar el robot: " << e.getMessage() << std::endl;
+    }
     }
 
     void activarMotores() {
-        XmlRpc::XmlRpcValue args, result;
-        try {
-            std::cout << "Enviando solicitud de activación de motores al servidor..." << std::endl;
-            client.execute("activar_motores", args, result);
+    if (!robotConectado) {
+        std::cerr << "Error: el robot debe estar conectado antes de activar los motores." << std::endl;
+        return;
+    }
+
+    XmlRpc::XmlRpcValue args, result;
+    try {
+        std::cout << "Enviando solicitud de activación de motores al servidor..." << std::endl;
+        client.execute("activar_motores", args, result);
+
+        if (result.getType() == XmlRpc::XmlRpcValue::TypeString) {
             std::cout << "Respuesta del servidor: " << static_cast<std::string>(result) << std::endl;
-        } catch (XmlRpc::XmlRpcException& e) {
-            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
         }
+    } catch (XmlRpc::XmlRpcException& e) {
+        std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
+    }
     }
 
     void desactivarMotores() {
-        XmlRpc::XmlRpcValue args, result;
-        try {
-            std::cout << "Enviando solicitud de desactivación de motores al servidor..." << std::endl;
-            client.execute("desactivar_motores", args, result);
+    if (!robotConectado) {
+        std::cerr << "Error: el robot debe estar conectado antes de desactivar los motores." << std::endl;
+        return;
+    }
+
+    XmlRpc::XmlRpcValue args, result;
+    try {
+        std::cout << "Enviando solicitud de desactivación de motores al servidor..." << std::endl;
+        client.execute("desactivar_motores", args, result);
+
+        if (result.getType() == XmlRpc::XmlRpcValue::TypeString) {
             std::cout << "Respuesta del servidor: " << static_cast<std::string>(result) << std::endl;
-        } catch (XmlRpc::XmlRpcException& e) {
-            std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
         }
+    } catch (XmlRpc::XmlRpcException& e) {
+        std::cerr << "Error al contactar al servidor: " << e.getMessage() << std::endl;
+    }
     }
 
     void registrarUsuario(const std::string& usuario, const std::string& contraseña) {
