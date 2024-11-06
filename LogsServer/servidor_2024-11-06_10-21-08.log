@@ -1,0 +1,20 @@
+2024-11-06 10:21:08,115 - INFO - Usuarios cargados correctamente.
+2024-11-06 10:21:08,115 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 10:21:22,144 - INFO - Usuario admin autenticado correctamente.
+2024-11-06 10:21:35,230 - ERROR - Error al activar los motores: El robot no está conectado.
+2024-11-06 10:21:40,628 - ERROR - El robot no está conectado. Conéctese primero antes de enviar comandos G-Code.
+2024-11-06 10:21:40,630 - ERROR - El robot no está conectado. Conéctese primero antes de enviar comandos G-Code.
+2024-11-06 10:21:45,432 - INFO - Puerto COM3 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 10:21:47,093 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 10:21:47,093 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 10:21:59,831 - ERROR - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-06 10:21:59,831 - ERROR - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-06 10:22:04,354 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 10:22:14,006 - INFO - Usuario admin ha enviado el código G-code: G28
+2024-11-06 10:22:14,007 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-06 10:22:16,008 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-06 10:22:16,008 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-06 10:22:16,008 - INFO - Usuario admin ha enviado el código G-code: G28
+2024-11-06 10:22:16,008 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-06 10:22:18,013 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-06 10:22:18,013 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=4.50s

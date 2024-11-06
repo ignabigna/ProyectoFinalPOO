@@ -1,0 +1,11 @@
+2024-11-06 10:17:10,009 - INFO - Usuarios cargados correctamente.
+2024-11-06 10:17:10,009 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 10:17:13,854 - INFO - Usuario admin autenticado correctamente.
+2024-11-06 10:18:03,297 - INFO - Parámetros de conexión actualizados.
+2024-11-06 10:18:16,437 - INFO - Estado actual del servidor mostrado.
+2024-11-06 10:18:25,809 - INFO - Puerto COM4 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 10:18:27,365 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 10:18:27,368 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 10:18:45,428 - INFO - Parámetros de conexión actualizados.
+2024-11-06 10:18:48,661 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 10:18:57,832 - INFO - Comando M17 enviado: Motores activados.

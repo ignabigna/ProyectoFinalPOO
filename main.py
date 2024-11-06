@@ -17,10 +17,15 @@ def iniciar_servidor():
 
 def iniciar_cliente():
     try:
-        # Ejecuta el cliente previamente compilado
-        subprocess.run(["./Cliente", "127.0.0.1", "8080"], check=True)
+        # Ejecuta el cliente en una nueva ventana de consola
+        subprocess.run(["start", "cmd", "/k", "Cliente", "127.0.0.1", "8080"], shell=True)
+        
+        # Ejecuta el servidor en una nueva ventana de consola
+        subprocess.run(["start", "cmd", "/k", "python", "servidor.py"], shell=True)
+
     except subprocess.CalledProcessError as e:
-        print(f"Error al iniciar el cliente: {e}")
+        print(f"Error al iniciar el cliente o el servidor: {e}")
+
 
 if __name__ == "__main__":
     opcion = mostrar_menu()

@@ -25,13 +25,26 @@ public:
 
         try {
             client.execute("autenticar_usuario", args, result);
-            return static_cast<bool>(result);
+
+            // Verificar que result sea una tupla con dos valores
+            if (result.getType() == XmlRpc::XmlRpcValue::TypeArray && result.size() == 2) {
+                bool autenticado = static_cast<bool>(result[0]);
+                bool esAdmin = static_cast<bool>(result[1]);
+
+                // Mostrar mensaje según rol
+                if (autenticado) {
+                    std::cout << (esAdmin ? "Usuario autenticado como administrador." : "Usuario autenticado.") << std::endl;
+                }
+                return autenticado;
+            } else {
+                std::cerr << "Respuesta inesperada del servidor." << std::endl;
+                return false;
+            }
         } catch (XmlRpc::XmlRpcException& e) {
             std::cerr << "Error al autenticar con el servidor: " << e.getMessage() << std::endl;
             return false;
         }
-    }
-
+}
     void conectarRobot() {
         XmlRpc::XmlRpcValue args, result;
         try {

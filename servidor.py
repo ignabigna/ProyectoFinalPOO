@@ -55,7 +55,10 @@ class Servidor:
                 reader = csv.reader(file)
                 for row in reader:
                     if len(row) >= 2:
-                        usuarios[row[0]] = row[1]  # usuario: contraseña
+                        usuario = row[0]
+                        contraseña = row[1]
+                        rol = row[2] if len(row) > 2 else "user"  # Asigna "user" como rol predeterminado si no se especifica
+                        usuarios[usuario] = {"contraseña": contraseña, "rol": rol}
             self.logger.info("Usuarios cargados correctamente.")
         except FileNotFoundError as e:
             raise FileNotFoundError(self.error_manager.handle_error(e, f"El archivo {archivo_csv} no se encontró"))
@@ -63,17 +66,18 @@ class Servidor:
             raise Exception(self.error_manager.handle_error(e, "Error al cargar el archivo de usuarios"))
         return usuarios
 
+
     # Registrar un nuevo usuario en el archivo CSV
     def registrar_usuario(self, usuario, contraseña):
         if usuario in self.usuarios:
             self.error_manager.handle_warning(f"Intento de registrar un usuario ya existente: {usuario}")
             return "El usuario ya existe."
         else:
-            self.usuarios[usuario] = contraseña
+            self.usuarios[usuario] = {"contraseña": contraseña, "rol": "user"}  # Asigna "user" como rol por defecto
             try:
                 with open("usuarios.csv", mode="a", newline="") as file:
                     writer = csv.writer(file)
-                    writer.writerow([usuario, contraseña])
+                    writer.writerow([usuario, contraseña, "user"])
                 self.logger.info(f"Usuario {usuario} registrado correctamente.")
                 return "Usuario registrado correctamente."
             except Exception as e:
@@ -81,14 +85,13 @@ class Servidor:
 
     # Validar credenciales de usuario
     def autenticar_usuario(self, usuario, contraseña):
-        if usuario in self.usuarios and self.usuarios[usuario] == contraseña:
+        if usuario in self.usuarios and self.usuarios[usuario]['contraseña'] == contraseña:
             self.logger.info(f"Usuario {usuario} autenticado correctamente.")
-            return True, usuario == "admin"  # Devuelve si es usuario y si es admin
+            es_admin = self.usuarios[usuario]['rol'] == 'admin'
+            return True, es_admin
         else:
             self.error_manager.handle_warning(f"Autenticación fallida para el usuario {usuario}.")
             return False, False
-
-    # Cargar los códigos G-code y sus descripciones desde el archivo CSV
     def cargar_gcode_descripciones(self, archivo_csv):
         gcode_dict = {}
         try:
@@ -115,12 +118,29 @@ class Servidor:
         
     # Método para conectar al robot cuando lo solicite el cliente
     def conectar_robot(self):
+        # Cargar los parámetros de conexión desde el archivo JSON
+        archivo_config = "configuracion_conexion.json"
+        try:
+            with open(archivo_config, 'r') as f:
+                parametros = json.load(f)
+                puerto = parametros.get("puerto", "COM3")  # Valor por defecto si no está definido en JSON
+                baudrate = parametros.get("baudrate", 115200)
+                timeout = parametros.get("timeout", 1)
+        except FileNotFoundError:
+            # Si el archivo no existe, usa valores por defecto y muestra un mensaje de advertencia
+            self.logger.warning(f"No se encontró {archivo_config}, usando valores por defecto.")
+            puerto = "COM3"
+            baudrate = 115200
+            timeout = 1
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Error al decodificar {archivo_config}: {e}")
+
         if self.serial_port is None:
             try:
-                self.serial_port = serial.Serial("COM3", 115200, timeout=1)
-                self.logger.info("Puerto COM5 abierto correctamente.")
+                self.serial_port = serial.Serial(puerto, baudrate, timeout=timeout)
+                self.logger.info(f"Puerto {puerto} abierto correctamente con baudrate {baudrate} y timeout {timeout}.")
                 inicializacion = []
-                
+
                 for _ in range(2):
                     linea = self.serial_port.readline().decode("ISO-8859-1").strip()
                     while not linea:
@@ -130,23 +150,11 @@ class Servidor:
                 
                 return inicializacion
             except serial.SerialException as e:
-                raise serial.SerialException(self.error_manager.handle_error(e, "Error al abrir el puerto serial"))
+                raise serial.SerialException(self.error_manager.handle_error(e, f"Error al abrir el puerto serial en {puerto}"))
         else:
             self.error_manager.handle_warning("Intento de conectar al robot cuando ya estaba conectado.")
             return ["El robot ya está conectado."]
-
-    def desconectar_robot(self):
-        if self.serial_port is not None:
-            try:
-                self.serial_port.close()
-                self.serial_port = None
-                self.logger.info("El robot se ha desconectado correctamente.")
-                return "El robot se ha desconectado correctamente."
-            except Exception as e:
-                return self.error_manager.handle_error(e, "Error al desconectar el robot")
-        else:
-            return self.error_manager.handle_warning("El robot ya está desconectado.")
-        
+            
     def activar_motores(self):
         try:
             if self.serial_port is None:
