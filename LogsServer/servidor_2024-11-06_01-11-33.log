@@ -1,0 +1,13 @@
+2024-11-06 01:11:33,748 - INFO - Conectado a Arduino en el puerto COM5.
+2024-11-06 01:11:58,143 - ERROR - Error al conectar al Arduino en modo local: could not open port 'COM5': PermissionError(13, 'Acceso denegado.', None, 5)
+2024-11-06 01:12:18,237 - INFO - Desconectado del Arduino.
+2024-11-06 01:12:19,745 - INFO - Conectado a Arduino en el puerto COM5.
+2024-11-06 01:12:24,677 - ERROR - Error al conectar al Arduino en modo local: could not open port 'COM5': PermissionError(13, 'Acceso denegado.', None, 5)
+2024-11-06 01:12:36,748 - INFO - Enviando comando: M17
+2024-11-06 01:12:41,728 - ERROR - Error al conectar al Arduino en modo local: could not open port 'COM5': PermissionError(13, 'Acceso denegado.', None, 5)
+2024-11-06 01:12:47,577 - INFO - Desconectado del Arduino.
+2024-11-06 01:12:49,857 - INFO - Conectado a Arduino en el puerto COM5.
+2024-11-06 01:13:23,117 - INFO - Desconectado del Arduino.
+2024-11-06 01:13:30,573 - INFO - Conectado a Arduino en el puerto COM5.
+2024-11-06 01:13:39,697 - INFO - Desconectado del Arduino.
+2024-11-06 01:13:45,857 - WARNING - El Arduino ya está desconectado.

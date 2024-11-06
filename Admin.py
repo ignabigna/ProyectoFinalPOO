@@ -6,6 +6,8 @@ import csv
 import threading
 from Logger import Logger  # Asegúrate de que Logger esté accesible también en modo local
 from ErrorManager import ErrorManager
+import json  # Importar el módulo JSON para leer el archivo de configuración
+
 
 class Admin:
     def __init__(self):
@@ -18,11 +20,35 @@ class Admin:
         self.robot_conectado = False
         self.conectar_arduino()
 
-    def conectar_arduino(self):
-        """Conectar al Arduino en modo local."""
+    def cargar_configuracion(self):
+        """Carga la configuración desde config.json."""
+        config_path = "config.json"
         try:
-            self.serial_port = serial.Serial("COM5", 115200, timeout=1)
-            self.logger.info("Conectado a Arduino en el puerto COM5.")
+            with open(config_path, "r") as file:
+                config = json.load(file)
+                print("Configuración cargada correctamente.")
+                return config
+        except FileNotFoundError:
+            print(f"Error: No se encontró el archivo de configuración '{config_path}'.")
+            return None
+        except json.JSONDecodeError:
+            print("Error: El archivo de configuración tiene un formato JSON inválido.")
+            return None
+
+    def conectar_arduino(self):
+        """Conectar al Arduino en modo local usando parámetros de config.json."""
+        # Cargar la configuración desde config.json
+        config = self.cargar_configuracion()
+        if config is None:
+            print("No se pudo cargar la configuración. Conexión al Arduino cancelada.")
+            return
+
+        serial_port = config.get("serial_port", "COM5")  # Valor por defecto "COM5" si no está en config.json
+        baud_rate = config.get("baud_rate", 115200)  # Valor por defecto 115200 si no está en config.json
+
+        try:
+            self.serial_port = serial.Serial(serial_port, baud_rate, timeout=1)
+            self.logger.info(f"Conectado a Arduino en el puerto {serial_port} con {baud_rate} baudios.")
             
             # Leer las primeras líneas de inicialización del Arduino
             for _ in range(2):
@@ -31,7 +57,7 @@ class Admin:
                     self.logger.info(f"Inicialización del Arduino: {linea}")
             self.robot_conectado = True
         except serial.SerialException as e:
-            self.error_manager.handle_error(e, "Error al conectar al Arduino en modo local")
+            self.error_manager.handle_error(e, f"Error al conectar al Arduino en el puerto {serial_port}")
 
     def desconectar_arduino(self):
         """Desconectar del Arduino."""
@@ -151,6 +177,42 @@ class Admin:
         except Exception as e:
             print(f"Error al leer el archivo CSV: {e}")
 
+    def registrar_usuario(self):
+        """Registrar un nuevo usuario en el archivo CSV."""
+        usuario = input("Ingrese el nombre de usuario: ")
+        contraseña = input("Ingrese la contraseña: ")
+
+        usuarios_csv = "usuarios.csv"  # Reemplaza con la ruta correcta del archivo de usuarios
+
+        try:
+            # Abrir el archivo en modo "append" para agregar nuevos usuarios sin sobrescribir
+            with open(usuarios_csv, mode="a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow([usuario, contraseña])
+                print(f"Usuario '{usuario}' registrado correctamente.")
+                self.logger.info(f"Nuevo usuario registrado: {usuario}")
+        except Exception as e:
+            print(f"Error al registrar el usuario: {e}")
+            self.logger.error(f"Error al registrar el usuario: {e}")
+
+    def mostrar_configuracion(self):
+        """Mostrar el contenido de config.json."""
+        config_path = "config.json"  # Ruta del archivo JSON de configuración
+        try:
+            with open(config_path, "r") as file:
+                config = json.load(file)
+                print("\nContenido de config.json:\n")
+                for key, value in config.items():
+                    print(f"{key}: {value}")
+        except FileNotFoundError:
+            print(f"Error: No se encontró el archivo de configuración '{config_path}'.")
+        except json.JSONDecodeError:
+            print("Error: El archivo de configuración tiene un formato JSON inválido.")
+        except Exception as e:
+            print(f"Error al leer el archivo de configuración: {e}")
+
+
+
     def ejecutar_modo_local(self):
         """
         Muestra un menú para ejecutar comandos locales en el Arduino.
@@ -164,7 +226,9 @@ class Admin:
             "6": ("Iniciar modo automático", self.modo_automatico),
             "7": ("Mostrar últimas 100 líneas del log", self.mostrar_log),
             "8": ("Mostrar ayuda de comandos", self.mostrar_ayuda_comandos),
-            "9": ("Salir", self.desconectar_arduino)
+            "9": ("Registrar nuevo usuario", self.registrar_usuario),
+            "10": ("Mostrar configuración (config.json)", self.mostrar_configuracion),
+            "11": ("Salir", self.desconectar_arduino)
         }
         
         while True:
@@ -176,7 +240,7 @@ class Admin:
             if opcion in opciones:
                 _, accion = opciones[opcion]
                 accion()
-                if opcion == "9":  # Salir
+                if opcion == "11":  # Salir
                     break
             else:
                 print("Opción no válida. Intente de nuevo.")

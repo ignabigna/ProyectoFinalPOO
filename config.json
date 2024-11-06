@@ -1,0 +1,5 @@
+{
+    "serial_port": "COM5",
+    "baud_rate": 115200,
+    "ID_robot": 123467
+}

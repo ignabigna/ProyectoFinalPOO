@@ -1,0 +1,3 @@
+2024-11-06 01:13:30,573 - INFO - Conectado a Arduino en el puerto COM5.
+2024-11-06 01:13:39,697 - INFO - Desconectado del Arduino.
+2024-11-06 01:13:45,857 - WARNING - El Arduino ya está desconectado.

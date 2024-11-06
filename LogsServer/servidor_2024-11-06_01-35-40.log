@@ -1,0 +1,6 @@
+2024-11-06 01:35:40,859 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 01:35:40,859 - INFO - Usuarios cargados correctamente.
+2024-11-06 01:35:40,861 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 01:35:52,268 - INFO - Usuario Messi autenticado correctamente.
+2024-11-06 01:36:11,445 - INFO - Solicitud de saludo recibida de: Messi
+2024-11-06 01:36:18,583 - INFO - Puerto COM5 abierto correctamente.
