@@ -1,0 +1,7 @@
+2024-11-06 15:11:19,511 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:11:19,511 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:11:25,567 - INFO - Usuario admin autenticado correctamente.
+2024-11-06 15:11:28,816 - INFO - Puerto COM3 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 15:11:30,487 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 15:11:30,487 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 15:11:31,864 - INFO - El robot se ha desconectado correctamente.

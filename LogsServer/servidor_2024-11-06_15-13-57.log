@@ -1,0 +1,32 @@
+2024-11-06 15:13:57,761 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:13:57,761 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:13:57,761 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 15:13:57,761 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:13:57,761 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:13:57,761 - INFO - El robot se ha desconectado correctamente.
+2024-11-06 15:13:57,761 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:13:57,761 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:13:57,771 - WARNING - Intento de desconectar el robot cuando ya estaba desconectado.
+2024-11-06 15:13:57,772 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:13:57,772 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:13:57,772 - INFO - Usuario usuario_test ha enviado el código G-code: G1 X100
+2024-11-06 15:13:57,772 - INFO - Código G-code G1 X100 enviado al puerto COM3.
+2024-11-06 15:13:59,775 - ERROR - Error al leer la respuesta del Arduino: '>' not supported between instances of 'MagicMock' and 'int'
+2024-11-06 15:13:59,776 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:13:59,776 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:13:59,783 - INFO - Usuario usuario_test ha enviado el código G-code: G1 Z100
+2024-11-06 15:13:59,784 - INFO - Código G-code G1 Z100 enviado al puerto COM3.
+2024-11-06 15:14:01,786 - ERROR - Error al leer la respuesta del Arduino: '>' not supported between instances of 'MagicMock' and 'int'
+2024-11-06 15:14:01,789 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:01,789 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:01,791 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:01,792 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:01,793 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:01,794 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:01,795 - ERROR - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-06 15:14:01,796 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:01,796 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:01,798 - ERROR - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-06 15:14:01,799 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:01,799 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:01,801 - INFO - Estado actual del servidor mostrado.

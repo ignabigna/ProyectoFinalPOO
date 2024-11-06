@@ -73,15 +73,19 @@ class Servidor:
             self.error_manager.handle_warning(f"Intento de registrar un usuario ya existente: {usuario}")
             return "El usuario ya existe."
         else:
+            # Añadir al diccionario local
             self.usuarios[usuario] = {"contraseña": contraseña, "rol": "user"}  # Asigna "user" como rol por defecto
             try:
-                with open("usuarios.csv", mode="a", newline="") as file:
+                # Abre el archivo en modo append con newline controlado
+                with open("usuarios.csv", mode="a", newline="\n") as file:
                     writer = csv.writer(file)
+                    # Escribe el usuario con su contraseña y rol en una nueva línea
                     writer.writerow([usuario, contraseña, "user"])
                 self.logger.info(f"Usuario {usuario} registrado correctamente.")
                 return "Usuario registrado correctamente."
             except Exception as e:
                 return self.error_manager.handle_error(e, "Error al registrar el usuario")
+
 
     # Validar credenciales de usuario
     def autenticar_usuario(self, usuario, contraseña):
@@ -154,6 +158,20 @@ class Servidor:
         else:
             self.error_manager.handle_warning("Intento de conectar al robot cuando ya estaba conectado.")
             return ["El robot ya está conectado."]
+        
+    def desconectar_robot(self):
+        if self.serial_port is not None:
+            try:
+                self.serial_port.close()
+                self.serial_port = None
+                self.logger.info("El robot se ha desconectado correctamente.")
+                return "El robot se ha desconectado correctamente."
+            except serial.SerialException as e:
+                raise serial.SerialException(self.error_manager.handle_error(e, "Error al desconectar el puerto serial"))
+        else:
+            self.error_manager.handle_warning("Intento de desconectar el robot cuando ya estaba desconectado.")
+            return "El robot ya está desconectado."
+
             
     def activar_motores(self):
         try:

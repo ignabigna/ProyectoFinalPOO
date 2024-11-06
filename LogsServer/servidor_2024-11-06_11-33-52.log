@@ -1,0 +1,44 @@
+2024-11-06 11:33:52,809 - INFO - Usuarios cargados correctamente.
+2024-11-06 11:33:52,809 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 11:35:53,438 - INFO - Usuario Ezequiel registrado correctamente.
+2024-11-06 11:36:39,165 - INFO - Usuario Ezequiel autenticado correctamente.
+2024-11-06 11:37:48,754 - INFO - Solicitud de saludo recibida de: Ezequiel
+2024-11-06 11:40:19,573 - INFO - Puerto COM3 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 11:40:21,240 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 11:40:21,240 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 11:40:27,042 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 11:41:44,571 - ERROR - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-06 11:42:50,627 - INFO - Usuario Ezequiel ha enviado el código G-code: G28
+2024-11-06 11:42:50,627 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-06 11:42:52,636 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-06 11:42:52,636 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s
+2024-11-06 11:43:51,819 - INFO - Usuario Ezequiel ha enviado el código G-code: M3
+2024-11-06 11:43:51,819 - INFO - Código G-code M3 enviado al puerto COM3.
+2024-11-06 11:43:53,829 - INFO - Línea recibida del Arduino: INFO: GRIPPER ON
+2024-11-06 11:44:32,011 - INFO - Usuario Ezequiel ha enviado el código G-code: G1 X100 Y150 Z50 E50
+2024-11-06 11:44:32,011 - INFO - Código G-code G1 X100 Y150 Z50 E50 enviado al puerto COM3.
+2024-11-06 11:44:34,018 - INFO - Línea recibida del Arduino: INFO: LINEAR MOVE: [X:100.00 Y:150.00 Z:50.00 E:50.00] t=0.90s
+2024-11-06 11:45:03,134 - INFO - Usuario En automatico ha enviado el código G-code: G28
+2024-11-06 11:45:03,134 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-06 11:45:05,146 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-06 11:45:05,146 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=4.50s
+2024-11-06 11:45:10,231 - INFO - Usuario En automatico ha enviado el código G-code: M17
+2024-11-06 11:45:10,231 - INFO - Código G-code M17 enviado al puerto COM3.
+2024-11-06 11:45:17,247 - INFO - Usuario En automatico ha enviado el código G-code: M3
+2024-11-06 11:45:17,247 - INFO - Código G-code M3 enviado al puerto COM3.
+2024-11-06 11:45:19,251 - INFO - Línea recibida del Arduino: INFO: GRIPPER ON
+2024-11-06 11:45:24,299 - INFO - Usuario En automatico ha enviado el código G-code: G90
+2024-11-06 11:45:24,299 - INFO - Código G-code G90 enviado al puerto COM3.
+2024-11-06 11:45:26,303 - INFO - Línea recibida del Arduino: INFO: ABSOLUTE MODE ON
+2024-11-06 11:45:31,319 - INFO - Usuario En automatico ha enviado el código G-code: G91
+2024-11-06 11:45:31,319 - INFO - Código G-code G91 enviado al puerto COM3.
+2024-11-06 11:45:33,324 - INFO - Línea recibida del Arduino: INFO: RELATIVE MODE ON
+2024-11-06 11:45:38,341 - INFO - Usuario En automatico ha enviado el código G-code: M114
+2024-11-06 11:45:38,347 - INFO - Código G-code M114 enviado al puerto COM3.
+2024-11-06 11:45:40,349 - INFO - Línea recibida del Arduino: INFO: RELATIVE MODE
+2024-11-06 11:45:40,349 - INFO - Línea recibida del Arduino: INFO: ñCTUAL POSITION: [X:0.00 Y:170.00 Z:120.00 E:0.00]
+2024-11-06 11:45:45,402 - INFO - Usuario En automatico ha enviado el código G-code: M5
+2024-11-06 11:45:45,429 - INFO - Código G-code M5 enviado al puerto COM3.
+2024-11-06 11:45:47,444 - INFO - Línea recibida del Arduino: INFO: GRIPPER OFF
+2024-11-06 11:45:52,467 - INFO - Usuario En automatico ha enviado el código G-code: M18
+2024-11-06 11:45:52,467 - INFO - Código G-code M18 enviado al puerto COM3.

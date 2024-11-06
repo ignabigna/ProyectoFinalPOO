@@ -1,0 +1,27 @@
+2024-11-06 15:14:28,910 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:28,910 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:28,910 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 15:14:28,910 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:28,910 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:28,910 - INFO - El robot se ha desconectado correctamente.
+2024-11-06 15:14:28,910 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:28,910 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:28,910 - WARNING - Intento de desconectar el robot cuando ya estaba desconectado.
+2024-11-06 15:14:28,910 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:28,910 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:28,922 - INFO - Usuario usuario_test ha enviado el código G-code: G1 Z100
+2024-11-06 15:14:28,922 - INFO - Código G-code G1 Z100 enviado al puerto COM3.
+2024-11-06 15:14:30,923 - ERROR - Error al leer la respuesta del Arduino: '>' not supported between instances of 'MagicMock' and 'int'
+2024-11-06 15:14:30,926 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:30,927 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:30,929 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:30,929 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:30,932 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:30,932 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:30,934 - ERROR - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-06 15:14:30,934 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:30,936 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:30,937 - ERROR - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-06 15:14:30,937 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:30,938 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:30,939 - INFO - Estado actual del servidor mostrado.

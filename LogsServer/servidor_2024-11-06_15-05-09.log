@@ -1,0 +1,36 @@
+2024-11-06 15:05:09,513 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:09,513 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:09,513 - ERROR - Error al activar los motores: 'bool' object has no attribute 'write'
+2024-11-06 15:05:09,513 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:09,513 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:09,513 - INFO - Puerto COM3 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 15:05:11,182 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 15:05:11,186 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 15:05:11,187 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,188 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,188 - WARNING - Intento de conectar al robot cuando ya estaba conectado.
+2024-11-06 15:05:11,189 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,190 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,191 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,191 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,191 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,192 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,192 - INFO - Usuario usuario_test ha enviado el código G-code: G1 X100
+2024-11-06 15:05:11,192 - ERROR - Error al enviar el código G-code: 'bool' object has no attribute 'write'
+2024-11-06 15:05:11,192 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,193 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,193 - INFO - Usuario usuario_test ha enviado el código G-code: G1 Z100
+2024-11-06 15:05:11,193 - ERROR - Error al enviar el código G-code: 'bool' object has no attribute 'write'
+2024-11-06 15:05:11,194 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,194 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,196 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,196 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,198 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,198 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,198 - ERROR - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-06 15:05:11,198 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,198 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,199 - ERROR - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-06 15:05:11,199 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:05:11,199 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:05:11,199 - INFO - Estado actual del servidor mostrado.

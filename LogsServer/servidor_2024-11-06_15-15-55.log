@@ -1,0 +1,16 @@
+2024-11-06 15:15:55,719 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:15:55,719 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:16:00,796 - INFO - Usuario Nicolas autenticado correctamente.
+2024-11-06 15:16:04,700 - INFO - Puerto COM3 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 15:16:06,364 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 15:16:06,367 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 15:16:08,576 - INFO - El robot se ha desconectado correctamente.
+2024-11-06 15:16:12,573 - ERROR - Error al activar los motores: El robot no está conectado.
+2024-11-06 15:16:32,561 - INFO - Puerto COM3 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 15:16:34,221 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 15:16:34,221 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 15:16:34,988 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 15:16:42,408 - INFO - Usuario Nicolas ha enviado el código G-code: G28
+2024-11-06 15:16:42,408 - INFO - Código G-code G28 enviado al puerto COM3.
+2024-11-06 15:16:44,414 - INFO - Línea recibida del Arduino: INFO: HOMING
+2024-11-06 15:16:44,426 - INFO - Línea recibida del Arduino: INFO: HOMING COMPLETE t=7.50s

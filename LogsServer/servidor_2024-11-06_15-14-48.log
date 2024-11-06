@@ -1,0 +1,22 @@
+2024-11-06 15:14:48,990 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:48,990 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:48,990 - INFO - Comando M17 enviado: Motores activados.
+2024-11-06 15:14:48,990 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:48,990 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:48,990 - INFO - El robot se ha desconectado correctamente.
+2024-11-06 15:14:48,990 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:48,990 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:48,995 - WARNING - Intento de desconectar el robot cuando ya estaba desconectado.
+2024-11-06 15:14:48,997 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:48,997 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:48,998 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:48,998 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:48,999 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:48,999 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:48,999 - ERROR - El homing (G28) debe realizarse como la primera acción después de activar los motores.
+2024-11-06 15:14:49,000 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:49,000 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:49,000 - ERROR - Los motores deben estar activados antes de enviar cualquier comando.
+2024-11-06 15:14:49,001 - INFO - Usuarios cargados correctamente.
+2024-11-06 15:14:49,001 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 15:14:49,002 - INFO - Estado actual del servidor mostrado.

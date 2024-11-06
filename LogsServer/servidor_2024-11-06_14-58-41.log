@@ -1,0 +1,8 @@
+2024-11-06 14:58:41,074 - INFO - Usuarios cargados correctamente.
+2024-11-06 14:58:41,074 - INFO - Códigos G-code cargados correctamente.
+2024-11-06 14:58:49,988 - INFO - Usuario Nicolas autenticado correctamente.
+2024-11-06 14:58:51,797 - INFO - Solicitud de saludo recibida de: Nicolas
+2024-11-06 14:58:55,265 - INFO - Puerto COM3 abierto correctamente con baudrate 115200 y timeout 2.
+2024-11-06 14:58:56,926 - INFO - Línea recibida del Arduino: INFO: ROBOT ONLINE
+2024-11-06 14:58:56,942 - INFO - Línea recibida del Arduino: INFO: SEND G28 TO CALIBRATE
+2024-11-06 14:58:57,695 - INFO - Comando M17 enviado: Motores activados.
