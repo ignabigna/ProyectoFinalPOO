@@ -59,14 +59,12 @@ class InterfazServidor:
 
                         # Enviar el comando formateado al servidor
                         print("Enviando comando GCode al servidor...")
-                        respuesta = self.servidor.enviarGCode(self.usuario_actual, gcode_formateado)
+                        self.servidor.enviarGCode(self.usuario_actual, gcode_formateado)
                     except ValueError:
                         print("Error: Por favor, ingrese valores numéricos válidos.")
                 else:
                     # Enviar otros comandos directamente al servidor
-                    respuesta = self.servidor.enviarGCode(self.usuario_actual, gcode)
-                    print("Respuesta del servidor:", respuesta)
-                self.servidor.enviarGCode(self.usuario_actual, gcode)
+                    self.servidor.enviarGCode(self.usuario_actual, gcode)
             elif opcion == "3":
                 print("Conectando al robot...")
                 self.servidor.conectar_robot()
